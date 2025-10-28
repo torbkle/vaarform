@@ -2,7 +2,7 @@ import streamlit as st
 from supabase import create_client
 import pandas as pd
 import json
-from datetime import datetime, timedelta
+from datetime import date, timedelta, datetime
 import os
 from db import lagre_treningsøkt
 from db import supabase
