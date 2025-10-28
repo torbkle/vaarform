@@ -1,0 +1,12 @@
+{
+  "torbjorn": {
+    "navn": "Torbjørn",
+    "mål_økter": 4,
+    "mål_km": 25
+  },
+  "ursula": {
+    "navn": "Ursula",
+    "mål_økter": 4,
+    "mål_km": 25
+  }
+}
