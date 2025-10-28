@@ -19,7 +19,7 @@ def init_settings():
         default_settings = {
             "torbjorn": {
                 "navn": "Torbjørn",
-                "mål": "Trene 3 ganger per uke og nå 8 km totalt 💪"
+                "mål": "Gå ned 8 kg og øke utholdenhet og styrke 💪"
             },
             "ursula": {
                 "navn": "Ursula",
