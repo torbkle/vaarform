@@ -3,6 +3,7 @@ from datetime import datetime
 from logg import init_logg, skriv_logg, vis_parlogg, vis_ukesoppsummering, vis_ukemaal, vis_fremgang, rediger_maal, vis_treningslogg
 from settings import init_settings, vis_mål
 import json
+from logg import importer_garmin_mock
 
 # === Initier moduler ===
 init_settings()
@@ -68,6 +69,10 @@ elif valg == "Logg":
     skriv_logg()
     st.markdown("---")
     vis_treningslogg()
+
+if st.button("📥 Importer Garmin-data (mock)"):
+    importer_garmin_mock()
+    st.success("Garmin-økter importert!")
 
 # === Fremgang ===
 elif valg == "Fremgang":
