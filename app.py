@@ -63,6 +63,11 @@ elif valg == "Logg":
 
 elif valg == "Fremgang":
     vis_fremgang()
+    økt = hent_mock_økt("Torbjørn")
+    st.markdown("---")
+    st.subheader("📈 Fremgang basert på Garmin-data")
+    emoji = "🔥" if økt["gjennomsnittspuls"] > 140 else "💧"
+    st.write(f"{emoji} Du har gjennomført en {økt['aktivitet'].lower()} på {økt['distanse_km']} km med {økt['gjennomsnittspuls']} bpm i snittpuls.")
 
 elif valg == "Parvisning" and APP["vis_parvisning"]:
     vis_parlogg()
