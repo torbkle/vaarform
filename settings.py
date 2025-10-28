@@ -7,8 +7,8 @@ SETTINGS_FIL = "data/settings.json"
 def init_settings():
     if not os.path.exists(SETTINGS_FIL):
         default = {
-            "torbjorn": {"mål": "Gå ned 5 kg og forbedre 5 km-tid", "navn": "Torbjørn"},
-            "partner": {"mål": "Øke utholdenhet og styrke", "navn": "Ursula"}
+            "torbjorn": {"mål": "Gå ned 8 kg og øke utholdenhet og styrke", "navn": "Torbjørn"},
+            "ursula": {"mål": "Gå ned 4 kg og øke utholdenhet og styrke", "navn": "Ursula"}
         }
         with open(SETTINGS_FIL, "w", encoding="utf-8") as f:
             json.dump(default, f, indent=2)
