@@ -44,6 +44,14 @@ def vurder_intensitet(rad):
     else:
         return "🧘"
 
+
+
+# === test ===
+def vis_ukesoppsummering():
+    st.subheader("📊 Ukentlig oppsummering")
+    st.info("Denne funksjonen er under utvikling.")
+
+
 # === 1. Logg treningsøkt manuelt ===
 def skriv_logg():
     st.subheader("📋 Logg treningsøkt manuelt")
