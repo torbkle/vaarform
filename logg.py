@@ -116,3 +116,38 @@ def vis_ukesoppsummering():
 
     except Exception as e:
         st.error(f"Kunne ikke generere ukesoppsummering: {e}")
+
+def vis_ukemaal():
+    import streamlit as st
+    import pandas as pd
+    import json
+    from datetime import datetime, timedelta
+
+    LOGG_FIL = "data/logg.csv"
+    MÅL_FIL = "data/ukemaal.json"
+
+    # Hent ukemål
+    with open(MÅL_FIL, "r", encoding="utf-8") as f:
+        mål = json.load(f)
+
+    # Hent logg
+    df = pd.read_csv(LOGG_FIL)
+    df["Dato"] = pd.to_datetime(df["Dato"]).dt.date
+    start_uke = datetime.now().date() - timedelta(days=datetime.now().weekday())
+    uke_df = df[df["Dato"] >= start_uke]
+
+    st.subheader("📅 Ukemål og fremdrift")
+
+    for bruker in mål:
+        navn = mål[bruker]["navn"]
+        øktmål = mål[bruker]["mål_økter"]
+        km_mål = mål[bruker]["mål_km"]
+
+        person_df = uke_df[uke_df["Kommentar"].str.contains(navn, case=False, na=False)]
+        økter = len(person_df)
+        km_logget = sum([int(s.split("km")[0].split()[-1]) for s in person_df["Kommentar"] if "km" in s])
+
+        st.markdown(f"### {navn}")
+        st.progress(min(økter / øktmål, 1.0), text=f"Økter: {økter}/{øktmål}")
+        st.progress(min(km_logget / km_mål, 1.0), text=f"Km: {km_logget}/{km_mål}")
+
