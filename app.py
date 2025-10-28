@@ -11,11 +11,11 @@ from logg import (
     vis_treningslogg,
     vis_dagens_plan,
     vis_fremgang,
-    vis_parlogg,
+    # vis_parlogg,
     vis_ukesoppsummering,
     vis_ukemaal,
-    rediger_maal,
-    lag_detaljert_plan
+    # rediger_maal,
+    # lag_detaljert_plan
 )
 
 # === Initier app ===
