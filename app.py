@@ -1,6 +1,6 @@
 import streamlit as st
 from datetime import datetime
-from logg import init_logg, skriv_logg, vis_parlogg, vis_ukesoppsummering, vis_ukemaal, vis_fremgang, init_settings, rediger_mål
+from logg import init_logg, skriv_logg, vis_parlogg, vis_ukesoppsummering, vis_ukemaal, vis_fremgang, init_settings, rediger_maal
 from settings import init_settings, vis_mål
 import json
 
@@ -88,5 +88,5 @@ elif valg  == "Ukesmål":
 
 # === Rediger mål ===
 elif valg == "Rediger mål":
-    rediger_mål()
+    rediger_maal()
 
