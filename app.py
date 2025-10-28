@@ -1,6 +1,7 @@
 import streamlit as st
 import json
 from datetime import datetime
+from logg import init_logg, skriv_logg, vis_logg
 
 # === Last inn treningsplan ===
 with open("data/treningsplan.json", "r", encoding="utf-8") as f:
@@ -32,3 +33,7 @@ st.success(motivasjon[datetime.now().day % len(motivasjon)].strip())
 if st.button("✅ Jeg har fullført dagens økt!"):
     st.balloons()
     st.write("Bra jobbet! Husk å drikke vann og smile til deg selv.")
+
+init_logg()
+skriv_logg()
+vis_logg()
