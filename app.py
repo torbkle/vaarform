@@ -14,8 +14,8 @@ from logg import (
     vis_parlogg,
     vis_ukesoppsummering,
     vis_ukemaal,
-    # rediger_maal,
-    # lag_detaljert_plan
+    rediger_maal,
+    lag_detaljert_plan
 )
 
 # === Initier app ===
