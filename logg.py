@@ -162,3 +162,8 @@ def vis_ukesoppsummering():
                 st.warning("📉 Litt rolig uke – kanskje neste blir sterkere?")
     except Exception as e:
         st.error(f"Feil ved oppsummering: {e}")
+
+def vis_parlogg():
+    st.subheader("👥 Parvisning")
+    st.info("Parvisning kommer snart! Her vil du se fremgang for deg og partneren din side ved side.")
+
