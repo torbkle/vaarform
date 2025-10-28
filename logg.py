@@ -2,6 +2,13 @@ import streamlit as st
 import pandas as pd
 import json
 from datetime import datetime, timedelta
+import os
+
+def init_logg():
+    if not os.path.exists(LOGG_FIL):
+        df = pd.DataFrame(columns=["Dato", "Vekt (kg)", "Puls (snitt)", "Distanse (km)", "Kommentar"])
+        df.to_csv(LOGG_FIL, index=False)
+        print("Opprettet ny logg.csv med kolonner.")
 
 LOGG_FIL = "data/logg.csv"
 MÅL_FIL = "data/ukemaal.json"
