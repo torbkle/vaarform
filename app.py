@@ -1,67 +1,56 @@
 import streamlit as st
 from datetime import datetime
-from logg import init_logg, skriv_logg, vis_parlogg, vis_ukesoppsummering, vis_ukemaal, vis_fremgang, rediger_maal, vis_treningslogg
-from settings import init_settings, vis_mål
-import json
-from logg import importer_garmin_mock, lag_detaljert_plan, vis_dagens_plan
+
+# === Importer moduler ===
 from meny import vis_meny
+from settings import init_settings, vis_mål
+from logg import (
+    init_logg,
+    skriv_logg,
+    vis_treningslogg,
+    vis_dagens_plan,
+    vis_fremgang,
+    vis_parlogg,
+    vis_ukesoppsummering,
+    vis_ukemaal,
+    rediger_maal,
+    lag_detaljert_plan
+)
 
-
-
-# === Initier moduler ===
+# === Initier app ===
 init_settings()
 init_logg()
 
-# === Sidebar med menyvalg ===
+# === Sidebar ===
 valg = vis_meny()
-
-# === Vis personlige mål ===
 vis_mål()
 
-# === Velkommen ===
+# === Hovedvisning ===
 if valg == "Velkommen":
     st.title("🏃‍♀️ VårForm – Treningsapp for to")
     st.markdown("""
-    Velkommen til VårForm – en personlig treningsapp for deg og din partner.
-    
-    Her får dere:
+    Velkommen til VårForm – en personlig treningsapp for deg og din partner. Her får dere:
     - Daglige treningsplaner
     - Kostholdsråd tilpasset øktene
     - Motivasjon og fremgangslogg
     - Mulighet for Garmin-integrasjon
-    
+
     Trykk i menyen til venstre for å komme i gang!
     """)
 
-    # === Ukentlig oppsummering (kun søndag) ===
-    if datetime.now().weekday() == 6:  # 6 = søndag
-        st.markdown("---")
-        vis_ukesoppsummering()
-
-
-# === Dagens plan ===
 elif valg == "Dagens plan":
     vis_dagens_plan()
-      
 
-    
-
-# === Logg ===
 elif valg == "Logg":
     skriv_logg()
     st.markdown("---")
     vis_treningslogg()
 
-
-
-# === Fremgang ===
 elif valg == "Fremgang":
     vis_fremgang()
 
-# === Parvisning ===
 elif valg == "Parvisning":
     vis_parlogg()
-    
     st.markdown("---")
     st.subheader("💌 Send en oppmuntring")
     if st.button("Heia Ursula! 💪"):
@@ -69,26 +58,19 @@ elif valg == "Parvisning":
     if st.button("Heia Torbjørn! 🚀"):
         st.success("Melding sendt: Du bygger deg selv – én økt av gangen!")
 
-
-
-
-
-# === Ukesmål ===
-elif valg  == "Ukesmål":
+elif valg == "Ukesmål":
     vis_ukemaal()
-    
-# === Ukentlig oppsummering ===
+
 elif valg == "Ukentlig oppsummering":
     vis_ukesoppsummering()
 
-
-# === Rediger mål ===
 elif valg == "Rediger mål":
     rediger_maal()
 
-# === Planlegger ===
 elif valg == "Planlegger":
     lag_detaljert_plan()
 
-
-
+# === Automatisk ukesoppsummering på søndager ===
+if datetime.now().weekday() == 6 and valg != "Ukentlig oppsummering":
+    st.markdown("---")
+    vis_ukesoppsummering()
