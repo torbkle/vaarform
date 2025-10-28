@@ -49,3 +49,31 @@ def vis_parlogg():
 
     except:
         st.warning("Ingen parlogg funnet – husk å skrive 'Torbjørn' eller 'Ursula' i kommentarfeltet.")
+
+def vis_parlogg():
+    import streamlit as st
+    import pandas as pd
+
+    LOGG_FIL = "data/logg.csv"
+
+    st.subheader("👥 Parvisning – fremgang side om side")
+    col1, col2 = st.columns(2)
+
+    try:
+        df = pd.read_csv(LOGG_FIL)
+        df_torbjorn = df[df["Kommentar"].str.contains("Torbjørn", case=False, na=False)]
+        df_ursula = df[df["Kommentar"].str.contains("Ursula", case=False, na=False)]
+
+        with col1:
+            st.markdown("### Torbjørn")
+            st.line_chart(df_torbjorn.set_index("Dato")[["Vekt (kg)", "Puls (snitt)"]])
+            st.dataframe(df_torbjorn[::-1])
+
+        with col2:
+            st.markdown("### Ursula")
+            st.line_chart(df_ursula.set_index("Dato")[["Vekt (kg)", "Puls (snitt)"]])
+            st.dataframe(df_ursula[::-1])
+
+    except Exception as e:
+        st.warning(f"Feil ved visning av parlogg: {e}")
+
