@@ -143,7 +143,7 @@ def vis_parlogg():
                     st.dataframe(person_df[visningskolonner][::-1], use_container_width=True)
 
     except Exception as e:
-        st.warning(f"Feil ved visning av parlogg: {e}
+        st.warning(f"Feil ved visning av parlogg: {e}")
 
 
 # === 4. Ukentlig oppsummering ===
