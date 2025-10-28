@@ -62,6 +62,23 @@ def vis_ukemaal():
     except Exception as e:
         st.error(f"Feil ved visning av ukemål: {e}")
 
+# ===Fremgang ===
+def vis_fremgang():
+    st.subheader("📈 Din fremgang")
+
+    try:
+        df = pd.read_csv(LOGG_FIL)
+        df["Dato"] = pd.to_datetime(df["Dato"])
+        df_torbjorn = df[df["Kommentar"].str.contains("Torbjørn", case=False, na=False)]
+
+        st.line_chart(df_torbjorn.set_index("Dato")[["Vekt (kg)", "Puls (snitt)", "Distanse (km)"]])
+        st.dataframe(df_torbjorn[::-1])
+
+    except Exception as e:
+        st.warning(f"Feil ved visning av fremgang: {e}")
+
+
+
 # === 3. Parvisning med distanse ===
 def vis_parlogg():
     st.subheader("👥 Parvisning – fremgang side om side")
