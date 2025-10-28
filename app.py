@@ -3,7 +3,7 @@ from datetime import datetime
 from logg import init_logg, skriv_logg, vis_parlogg, vis_ukesoppsummering, vis_ukemaal, vis_fremgang, rediger_maal, vis_treningslogg
 from settings import init_settings, vis_mål
 import json
-from logg import importer_garmin_mock, lag_detaljert_plan
+from logg import importer_garmin_mock, lag_detaljert_plan, vis_dagens_plan
 
 
 # === Initier moduler ===
@@ -40,18 +40,7 @@ if valg == "Velkommen":
 
 # === Dagens plan ===
 elif valg == "Dagens plan":
-    st.title("📅 Dagens treningsplan")
-    dag = datetime.now().strftime("%A").lower()
-    try:
-        with open("data/treningsplan.json", "r", encoding="utf-8") as f:
-            plan = json.load(f)
-        if dag in plan:
-            st.markdown(f"**Trening:** {plan[dag]['trening']}")
-            st.markdown(f"**Kostholdstips:** {plan[dag]['kosthold']}")
-        else:
-            st.info("Ingen plan for i dag – kanskje en hviledag?")
-    except:
-        st.error("Fant ikke treningsplanfilen.")
+   vis_dagens_plan()
 
     # Motivasjon
     try:
