@@ -5,6 +5,7 @@ import json
 from datetime import datetime, timedelta
 import os
 from db import lagre_treningsøkt
+from db import supabase
 
 supabase = create_client(st.secrets["SUPABASE_URL"], st.secrets["SUPABASE_KEY"])
 LOGG_FIL = "data/logg.csv"
@@ -115,7 +116,33 @@ def importer_garmin_mock():
         import streamlit as st
         st.error(f"Feil ved import: {e}")
 
+# === Planleggermodul ==
+def lag_treningsplan():
+    st.subheader("🗓 Lag din treningsplan")
 
+    bruker = st.text_input("Navn på bruker", value="Torbjørn")
+    startdato = st.date_input("Startdato", value=date.today())
+    antall_uker = st.slider("Antall uker", 1, 12, 4)
+
+    ukedager = ["Mandag", "Tirsdag", "Onsdag", "Torsdag", "Fredag", "Lørdag", "Søndag"]
+    valgt_dager = st.multiselect("Hvilke dager vil du trene?", ukedager, default=["Mandag", "Onsdag", "Fredag"])
+
+    aktivitet = st.selectbox("Type aktivitet", ["Løping", "Styrke", "Yoga", "Hvile"])
+
+    if st.button("📅 Generer og lagre plan"):
+        datoer = [startdato + timedelta(days=i)
+                  for i in range(antall_uker * 7)
+                  if ukedager[(startdato + timedelta(days=i)).weekday()] in valgt_dager]
+
+        for d in datoer:
+            supabase.table("treningsplan").insert({
+                "bruker": bruker,
+                "dato": d.isoformat(),
+                "aktivitet": aktivitet
+            }).execute()
+
+        st.success(f"Plan for {len(datoer)} dager lagret!")
+        
 # === 1. Logg treningsøkt manuelt ===
 def skriv_logg():
     st.subheader("📋 Logg treningsøkt manuelt")
