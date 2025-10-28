@@ -300,22 +300,21 @@ def vis_treningslogg():
 
 # === Dagens plan ===
 def vis_dagens_plan():
-    st.subheader("📅 Dagens treningsøkt")
+    st.subheader("📅 Dagens økt")
 
-    bruker = "Torbjørn"  # Senere: hent fra innlogging
+    bruker = "Torbjørn"
     idag = date.today().isoformat()
 
     response = supabase.table("treningsplan").select("*").eq("bruker", bruker).eq("dato", idag).execute()
     økter = response.data
 
     if not økter:
-        st.info("Ingen planlagt økt i dag – kanskje en hviledag?")
+        st.info("Ingen planlagt økt i dag.")
         return
 
     økt = økter[0]
     st.markdown(f"**Aktivitet:** {økt['aktivitet']}")
-    st.markdown(f"**Beskrivelse:** {økt['beskrivelse']}")
+    st.markdown(f"**Økt:** {økt['beskrivelse']}")
 
-    if st.button("✅ Jeg har fullført dagens økt"):
-        st.success("Bra jobbet! Økten er registrert – husk å smile til deg selv.")
-        st.balloons()
+    if st.button("✅ Fullført"):
+        st.success("Økten er registrert. God innsats!")
