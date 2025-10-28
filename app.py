@@ -10,7 +10,7 @@ init_logg()
 
 # === Sidebar med menyvalg ===
 st.sidebar.title("🧭 Navigasjon")
-valg = st.sidebar.radio("Velg visning:", ["Velkommen", "Dagens plan", "Logg", "Fremgang", "Parvisning", "Ukesmål", "Rediger mål"])
+valg = st.sidebar.radio("Velg visning:", ["Velkommen", "Dagens plan", "Logg", "Fremgang", "Parvisning", "Ukesmål", "Ukentlig oppsummering", "Rediger mål"])
 
 # === Vis personlige mål ===
 vis_mål()
@@ -85,6 +85,11 @@ elif valg == "Parvisning":
 # === Ukesmål ===
 elif valg  == "Ukesmål":
     vis_ukemaal()
+    
+# === Ukentlig oppsummering ===
+elif valg == "Ukentlig oppsummering":
+    vis_ukesoppsummering()
+
 
 # === Rediger mål ===
 elif valg == "Rediger mål":
