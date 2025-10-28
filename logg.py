@@ -142,17 +142,16 @@ def vis_ukemaal():
         navn = mål[bruker]["navn"]
         øktmål = mål[bruker]["mål_økter"]
         km_mål = mål[bruker]["mål_km"]
-    
+
         person_df = uke_df[uke_df["Kommentar"].str.contains(navn, case=False, na=False)]
+
         økter = len(person_df)
-        km_logget = sum([int(s.split("km")[0].split()[-1]) for s in person_df["Kommentar"] if "km" in s])
-    
+        km_logget = person_df["Distanse (km)"].sum() if "Distanse (km)" in person_df.columns else 0
+
         st.markdown(f"### {navn}")
         st.progress(min(økter / øktmål, 1.0), text=f"Økter: {økter}/{øktmål}")
-        st.progress(min(km_logget / km_mål, 1.0), text=f"Km: {km_logget}/{km_mål}")
-    
+        st.progress(min(km_logget / km_mål, 1.0), text=f"Km: {km_logget:.1f}/{km_mål}")
+
         if økter >= øktmål and km_logget >= km_mål:
             st.success(f"{navn} har nådd ukemålet! Fantastisk innsats! 🎉")
             st.balloons()
-
-
