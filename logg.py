@@ -13,6 +13,24 @@ def init_logg():
 LOGG_FIL = "data/logg.csv"
 MÅL_FIL = "data/ukemaal.json"
 
+def init_settings():
+    filsti = "data/settings.json"
+    if not os.path.exists(filsti):
+        default_settings = {
+            "torbjorn": {
+                "navn": "Torbjørn",
+                "mål": "Trene 3 ganger per uke og nå 8 km totalt 💪"
+            },
+            "ursula": {
+                "navn": "Ursula",
+                "mål": "Holde energien oppe og trene jevnlig 🌟"
+            }
+        }
+        with open(filsti, "w", encoding="utf-8") as f:
+            json.dump(default_settings, f, indent=2, ensure_ascii=False)
+        print("Opprettet settings.json med standardmål.")
+
+
 # === 1. Logg treningsøkt manuelt ===
 def skriv_logg():
     st.subheader("📋 Logg treningsøkt manuelt")
