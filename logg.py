@@ -297,3 +297,25 @@ def vis_treningslogg():
 
     st.subheader("📘 Din treningslogg")
     st.dataframe(df[["dato", "aktivitet", "varighet", "distanse", "kommentar"]])
+
+# === Dagens plan ===
+def vis_dagens_plan():
+    st.subheader("📅 Dagens treningsøkt")
+
+    bruker = "Torbjørn"  # Senere: hent fra innlogging
+    idag = date.today().isoformat()
+
+    response = supabase.table("treningsplan").select("*").eq("bruker", bruker).eq("dato", idag).execute()
+    økter = response.data
+
+    if not økter:
+        st.info("Ingen planlagt økt i dag – kanskje en hviledag?")
+        return
+
+    økt = økter[0]
+    st.markdown(f"**Aktivitet:** {økt['aktivitet']}")
+    st.markdown(f"**Beskrivelse:** {økt['beskrivelse']}")
+
+    if st.button("✅ Jeg har fullført dagens økt"):
+        st.success("Bra jobbet! Økten er registrert – husk å smile til deg selv.")
+        st.balloons()
