@@ -23,7 +23,7 @@ def init_settings():
             },
             "ursula": {
                 "navn": "Ursula",
-                "mål": "Holde energien oppe og trene jevnlig 🌟"
+                "mål": "Gå ned 4 kg og øke utholdenhet og styrke 🌟"
             }
         }
         with open(filsti, "w", encoding="utf-8") as f:
