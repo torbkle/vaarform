@@ -74,7 +74,7 @@ elif valg == "Fremgang":
 # === Parvisning ===
 elif valg == "Parvisning":
     vis_parlogg()
-
+    vis_ukemaal()
     st.markdown("---")
     st.subheader("💌 Send en oppmuntring")
     if st.button("Heia Ursula! 💪"):
