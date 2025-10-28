@@ -1,3 +1,4 @@
+import streamlit as st
 from db import lagre_treningsøkt
 
 def test_supabase():
