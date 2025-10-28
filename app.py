@@ -66,7 +66,7 @@ elif valg == "Dagens plan":
 # === Logg ===
 elif valg == "Logg":
     skriv_logg()
-    st.markdown("---")
+        st.markdown("---")
     vis_treningslogg()
 
 # === Fremgang ===
