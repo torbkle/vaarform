@@ -43,17 +43,7 @@ elif valg == "Dagens plan":
     vis_dagens_plan()
       
 
-    # Motivasjon
-    try:
-        with open("assets/motivasjon.txt", "r", encoding="utf-8") as f:
-            motivasjon = f.readlines()
-        st.success(motivasjon[datetime.now().day % len(motivasjon)].strip())
-    except:
-        st.warning("Fant ikke motivasjonsfilen.")
-
-    if st.button("✅ Jeg har fullført dagens økt!"):
-        st.balloons()
-        st.write("Bra jobbet! Husk å drikke vann og smile til deg selv.")
+    
 
 # === Logg ===
 elif valg == "Logg":
@@ -61,9 +51,7 @@ elif valg == "Logg":
     st.markdown("---")
     vis_treningslogg()
 
-if st.button("📥 Importer Garmin-data (mock)"):
-    importer_garmin_mock()
-    st.success("Garmin-økter importert!")
+
 
 # === Fremgang ===
 elif valg == "Fremgang":
