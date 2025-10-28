@@ -10,7 +10,7 @@ init_logg()
 
 # === Sidebar med menyvalg ===
 st.sidebar.title("🧭 Navigasjon")
-valg = st.sidebar.radio("Velg visning:", ["Velkommen", "Dagens plan", "Logg", "Fremgang", "Parvisning"])
+valg = st.sidebar.radio("Velg visning:", ["Velkommen", "Dagens plan", "Logg", "Fremgang", "Parvisning", "Ukesmål"])
 
 # === Vis personlige mål ===
 vis_mål()
