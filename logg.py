@@ -31,6 +31,7 @@ def vurder_intensitet(rad):
 
 # === 1. Dagens plan ===
 def vis_dagens_plan():
+    st.subheader("📅 Dagens økt")
     bruker = APP["standard_bruker"]
     idag = date.today().isoformat()
 
@@ -157,5 +158,4 @@ def vis_ukesoppsummering():
             st.write(f"Pulsendring: **{puls_diff:+} bpm**")
 
             if økter >= 3 and flammer >= 2:
-                st.success("🏆 Ukens innsats: Sterk og intens!")
-            elif økter >= 3:
+                st.success("🏆 Ukens innsats:
