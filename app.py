@@ -4,6 +4,8 @@ from logg import init_logg, skriv_logg, vis_parlogg, vis_ukesoppsummering, vis_u
 from settings import init_settings, vis_mål
 import json
 from logg import importer_garmin_mock, lag_detaljert_plan, vis_dagens_plan
+from meny import vis_meny
+
 
 
 # === Initier moduler ===
@@ -11,8 +13,7 @@ init_settings()
 init_logg()
 
 # === Sidebar med menyvalg ===
-st.sidebar.title("🧭 Navigasjon")
-valg = st.sidebar.radio("Velg visning:", ["Velkommen", "Dagens plan", "Logg", "Fremgang", "Parvisning", "Ukesmål", "Ukentlig oppsummering", "Rediger mål", "Planlegger"])
+valg = vis_meny()
 
 # === Vis personlige mål ===
 vis_mål()
