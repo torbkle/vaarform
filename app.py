@@ -1,6 +1,6 @@
 import streamlit as st
 from datetime import datetime
-from logg import init_logg, skriv_logg, vis_logg, vis_parlogg
+from logg import init_logg, skriv_logg, vis_logg, vis_parlogg, vis_ukesoppsummering
 from settings import init_settings, vis_mål
 import json
 
@@ -29,6 +29,12 @@ if valg == "Velkommen":
     
     Trykk i menyen til venstre for å komme i gang!
     """)
+
+    # === Ukentlig oppsummering (kun søndag) ===
+    if datetime.now().weekday() == 6:  # 6 = søndag
+        st.markdown("---")
+        vis_ukesoppsummering()
+
 
 # === Dagens plan ===
 elif valg == "Dagens plan":
