@@ -99,3 +99,9 @@ elif valg == "Ukentlig oppsummering":
 elif valg == "Rediger mål":
     rediger_maal()
 
+elif valg == "Logg":
+    skriv_logg()
+    st.markdown("---")
+    vis_treningslogg()
+
+
