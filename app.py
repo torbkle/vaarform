@@ -1,44 +1,66 @@
 import streamlit as st
-import json
 from datetime import datetime
 from logg import init_logg, skriv_logg, vis_logg
 from settings import init_settings, vis_mål
+import json
 
-
-# === Last inn treningsplan ===
-with open("data/treningsplan.json", "r", encoding="utf-8") as f:
-    plan = json.load(f)
-
-# === Last inn motivasjon ===
-with open("assets/motivasjon.txt", "r", encoding="utf-8") as f:
-    motivasjon = f.readlines()
-
-# === Dagens dato og ukedag ===
-dag = datetime.now().strftime("%A").lower()
-
+# === Initier moduler ===
 init_settings()
+init_logg()
+
+# === Sidebar med menyvalg ===
+st.sidebar.title("🧭 Navigasjon")
+valg = st.sidebar.radio("Velg visning:", ["Velkommen", "Dagens plan", "Logg", "Fremgang"])
+
+# === Vis personlige mål ===
 vis_mål()
 
-st.title("🏃‍♀️ VårForm – Treningsapp for to")
-st.subheader(f"Dagens plan ({dag.capitalize()})")
+# === Velkommen ===
+if valg == "Velkommen":
+    st.title("🏃‍♀️ VårForm – Treningsapp for to")
+    st.markdown("""
+    Velkommen til VårForm – en personlig treningsapp for deg og din kjæreste.
+    
+    Her får dere:
+    - Daglige treningsplaner
+    - Kostholdsråd tilpasset øktene
+    - Motivasjon og fremgangslogg
+    - Mulighet for Garmin-integrasjon
+    
+    Trykk i menyen til venstre for å komme i gang!
+    """)
 
-# === Vis treningsplan ===
-if dag in plan:
-    st.markdown(f"**Trening:** {plan[dag]['trening']}")
-    st.markdown(f"**Kostholdstips:** {plan[dag]['kosthold']}")
-else:
-    st.info("Ingen plan for i dag – kanskje en hviledag?")
+# === Dagens plan ===
+elif valg == "Dagens plan":
+    st.title("📅 Dagens treningsplan")
+    dag = datetime.now().strftime("%A").lower()
+    try:
+        with open("data/treningsplan.json", "r", encoding="utf-8") as f:
+            plan = json.load(f)
+        if dag in plan:
+            st.markdown(f"**Trening:** {plan[dag]['trening']}")
+            st.markdown(f"**Kostholdstips:** {plan[dag]['kosthold']}")
+        else:
+            st.info("Ingen plan for i dag – kanskje en hviledag?")
+    except:
+        st.error("Fant ikke treningsplanfilen.")
 
-# === Motivasjon ===
-st.markdown("---")
-st.markdown("💬 **Motivasjon:**")
-st.success(motivasjon[datetime.now().day % len(motivasjon)].strip())
+    # Motivasjon
+    try:
+        with open("assets/motivasjon.txt", "r", encoding="utf-8") as f:
+            motivasjon = f.readlines()
+        st.success(motivasjon[datetime.now().day % len(motivasjon)].strip())
+    except:
+        st.warning("Fant ikke motivasjonsfilen.")
 
-# === Fullført-knapp ===
-if st.button("✅ Jeg har fullført dagens økt!"):
-    st.balloons()
-    st.write("Bra jobbet! Husk å drikke vann og smile til deg selv.")
+    if st.button("✅ Jeg har fullført dagens økt!"):
+        st.balloons()
+        st.write("Bra jobbet! Husk å drikke vann og smile til deg selv.")
 
-init_logg()
-skriv_logg()
-vis_logg()
+# === Logg ===
+elif valg == "Logg":
+    skriv_logg()
+
+# === Fremgang ===
+elif valg == "Fremgang":
+    vis_logg()
