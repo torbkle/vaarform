@@ -8,15 +8,12 @@ from config import FARGER, IKONER, APP
 
 LOGG_FIL = "data/logg.csv"
 MÅL_FIL = "data/ukemaal.json"
-SETTINGS_FIL = "data/settings.json"
 
-# === Init ===
 def init_logg():
     if not os.path.exists(LOGG_FIL):
         df = pd.DataFrame(columns=["Dato", "Vekt (kg)", "Puls (snitt)", "Distanse (km)", "Kommentar"])
         df.to_csv(LOGG_FIL, index=False)
 
-# === Intensitet ===
 def vurder_intensitet(rad):
     puls = rad["Puls (snitt)"]
     km = rad.get("Distanse (km)", 0)
@@ -29,7 +26,6 @@ def vurder_intensitet(rad):
     else:
         return "🧘"
 
-# === Dagens plan ===
 def vis_dagens_plan():
     st.subheader("📅 Dagens økt")
     bruker = APP["standard_bruker"]
@@ -55,7 +51,6 @@ def vis_dagens_plan():
     if st.button("✅ Fullført"):
         st.success("Økten er registrert. God innsats!")
 
-# === Logg manuelt ===
 def skriv_logg():
     st.subheader("📋 Logg treningsøkt manuelt")
     dato = st.date_input("Dato", value=datetime.now().date())
@@ -70,7 +65,6 @@ def skriv_logg():
         ny_rad.to_csv(LOGG_FIL, mode='a', header=False, index=False)
         st.success(f"Logg lagret for {dato}!")
 
-# === Treningslogg ===
 def vis_treningslogg():
     response = supabase.table("treningslogg").select("*").order("dato", desc=True).execute()
     data = response.data
@@ -85,7 +79,6 @@ def vis_treningslogg():
     st.subheader("📘 Din treningslogg")
     st.dataframe(df[["dato", "aktivitet", "varighet", "distanse", "kommentar"]])
 
-# === Fremgang ===
 def vis_fremgang():
     st.subheader("📈 Din fremgang")
     try:
@@ -97,7 +90,6 @@ def vis_fremgang():
     except Exception as e:
         st.warning(f"Feil ved visning av fremgang: {e}")
 
-# === Ukemål ===
 def vis_ukemaal():
     st.subheader("📅 Ukemål og fremdrift")
     try:
@@ -131,7 +123,6 @@ def vis_ukemaal():
     except Exception as e:
         st.error(f"Feil ved visning av ukemål: {e}")
 
-# === Ukentlig oppsummering ===
 def vis_ukesoppsummering():
     st.subheader("📊 Ukentlig oppsummering")
     try:
@@ -141,24 +132,22 @@ def vis_ukesoppsummering():
         slutt_uke = start_uke + timedelta(days=6)
         uke_df = df[(df["Dato"] >= start_uke) & (df["Dato"] <= slutt_uke)]
 
-        def oppsummering(navn):
+        for navn in ["Torbjørn", "Ursula"]:
             person_df = uke_df[uke_df["Kommentar"].str.contains(navn, case=False, na=False)]
             økter = len(person_df)
             km = person_df["Distanse (km)"].sum() if "Distanse (km)" in person_df.columns else 0
-            person_df["Intensitet"] = person_df.apply(vurder_intensitet, axis=1)
-            flammer = (person_df["Intensitet"] == "🔥").sum()
-            vekt_diff = round(person_df["Vekt (kg)"].iloc[-1] - person_df["Vekt (kg)"].iloc[0], 1) if økter >= 2 else 0
-            puls_diff = round(person_df["Puls (snitt)"].iloc[-1] - person_df["Puls (snitt)"].iloc[0], 1) if økter >= 2 else 0
+            flammer = (person_df.apply(vurder_intensitet, axis=1) == "🔥").sum()
 
             st.markdown(f"### {navn}")
             st.write(f"Antall økter: **{økter}**")
             st.write(f"Total distanse: **{km:.1f} km**")
             st.write(f"🔥 Intense økter: **{flammer}**")
-            st.write(f"Vektendring: **{vekt_diff:+} kg**")
-            st.write(f"Pulsendring: **{puls_diff:+} bpm**")
 
             if økter >= 3 and flammer >= 2:
                 st.success("🏆 Ukens innsats: Sterk og intens!")
             elif økter >= 3:
                 st.info("💪 God treningsuke – jevn og solid innsats!")
-            elif økter
+            else:
+                st.warning("📉 Litt rolig uke – kanskje neste blir sterkere?")
+    except Exception as e:
+        st.error(f"Feil ved oppsummering: {e}")
