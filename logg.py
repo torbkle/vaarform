@@ -154,3 +154,27 @@ def vis_ukesoppsummering():
 
     except Exception as e:
         st.error(f"Kunne ikke generere ukesoppsummering: {e}")
+
+# === Rediger mål ===
+def rediger_mål():
+    st.subheader("🛠️ Rediger treningsmål")
+
+    filsti = "data/settings.json"
+    try:
+        with open(filsti, "r", encoding="utf-8") as f:
+            settings = json.load(f)
+
+        for bruker in settings:
+            navn = settings[bruker]["navn"]
+            st.markdown(f"### {navn}")
+            nytt_mål = st.text_input(f"Mål for {navn}", value=settings[bruker]["mål"], key=bruker)
+
+            if st.button(f"Lagre nytt mål for {navn}", key=f"lagre_{bruker}"):
+                settings[bruker]["mål"] = nytt_mål
+                with open(filsti, "w", encoding="utf-8") as f:
+                    json.dump(settings, f, indent=2, ensure_ascii=False)
+                st.success(f"Mål oppdatert for {navn}!")
+
+    except Exception as e:
+        st.error(f"Kunne ikke laste eller oppdatere settings.json: {e}")
+
