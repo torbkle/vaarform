@@ -46,10 +46,54 @@ def vurder_intensitet(rad):
 
 
 
-# === test ===
+# === Ukesoppdatering ===
 def vis_ukesoppsummering():
     st.subheader("📊 Ukentlig oppsummering")
-    st.info("Denne funksjonen er under utvikling.")
+    try:
+        df = pd.read_csv(LOGG_FIL)
+        df["Dato"] = pd.to_datetime(df["Dato"]).dt.date
+        start_uke = datetime.now().date() - timedelta(days=datetime.now().weekday())
+        slutt_uke = start_uke + timedelta(days=6)
+        uke_df = df[(df["Dato"] >= start_uke) & (df["Dato"] <= slutt_uke)]
+
+        def oppsummering(navn):
+            person_df = uke_df[uke_df["Kommentar"].str.contains(navn, case=False, na=False)]
+            økter = len(person_df)
+            km = person_df["Distanse (km)"].sum() if "Distanse (km)" in person_df.columns else 0
+            person_df["Intensitet"] = person_df.apply(vurder_intensitet, axis=1)
+            flammer = (person_df["Intensitet"] == "🔥").sum()
+
+            vekt_diff = round(person_df["Vekt (kg)"].iloc[-1] - person_df["Vekt (kg)"].iloc[0], 1) if økter >= 2 else 0
+            puls_diff = round(person_df["Puls (snitt)"].iloc[-1] - person_df["Puls (snitt)"].iloc[0], 1) if økter >= 2 else 0
+
+            st.markdown(f"### {navn}")
+            st.write(f"Antall økter: **{økter}**")
+            st.write(f"Total distanse: **{km:.1f} km**")
+            st.write(f"🔥 Intense økter: **{flammer}**")
+            st.write(f"Vektendring: **{vekt_diff:+} kg**")
+            st.write(f"Pulsendring: **{puls_diff:+} bpm**")
+
+            if økter >= 3 and flammer >= 2:
+                st.success("🏆 Ukens innsats: Sterk og intens! Fantastisk!")
+            elif økter >= 3:
+                st.info("💪 God treningsuke – jevn og solid innsats!")
+            elif økter > 0:
+                st.warning("🙂 Litt aktivitet – men du har mer inne!")
+            else:
+                st.error("😴 Ingen registrerte økter denne uka.")
+
+        oppsummering("Torbjørn")
+        oppsummering("Ursula")
+
+        # Fellesøkter
+        felles = uke_df[uke_df["Kommentar"].str.contains("Torbjørn", case=False, na=False) &
+                        uke_df["Kommentar"].str.contains("Ursula", case=False, na=False)]
+        if len(felles) > 0:
+            st.markdown("### 👣 Fellesøkter")
+            st.success(f"{len(felles)} økter sammen denne uka – sterkere sammen! 💞")
+
+    except Exception as e:
+        st.error(f"Feil ved ukesoppsummering: {e}")
 
 
 # === 1. Logg treningsøkt manuelt ===
