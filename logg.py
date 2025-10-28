@@ -123,9 +123,14 @@ def vis_parlogg():
         df_torbjorn = df[df["Kommentar"].str.contains("Torbjørn", case=False, na=False)]
         df_ursula = df[df["Kommentar"].str.contains("Ursula", case=False, na=False)]
 
-        # Legg til intensitet
-        df_torbjorn["Intensitet"] = df_torbjorn.apply(vurder_intensitet, axis=1)
-        df_ursula["Intensitet"] = df_ursula.apply(vurder_intensitet, axis=1)
+        # Legg til intensitet og forkort kommentar
+        for person_df in [df_torbjorn, df_ursula]:
+            person_df["Intensitet"] = person_df.apply(vurder_intensitet, axis=1)
+            person_df["Kort kommentar"] = person_df["Kommentar"].apply(
+                lambda x: x[:40] + "..." if isinstance(x, str) and len(x) > 40 else x
+            )
+
+        visningskolonner = ["Dato", "Distanse (km)", "Intensitet", "Kort kommentar"]
 
         for navn, person_df, col in [("Torbjørn", df_torbjorn, col1), ("Ursula", df_ursula, col2)]:
             with col:
@@ -133,10 +138,12 @@ def vis_parlogg():
                 st.line_chart(person_df.set_index("Dato")[["Vekt (kg)", "Puls (snitt)"]])
                 if "Distanse (km)" in person_df.columns:
                     st.line_chart(person_df.set_index("Dato")[["Distanse (km)"]])
-                st.dataframe(person_df[["Dato", "Vekt (kg)", "Puls (snitt)", "Distanse (km)", "Intensitet", "Kommentar"]][::-1])
+
+                with st.expander("📋 Se loggdetaljer"):
+                    st.dataframe(person_df[visningskolonner][::-1], use_container_width=True)
 
     except Exception as e:
-        st.warning(f"Feil ved visning av parlogg: {e}")
+        st.warning(f"Feil ved visning av parlogg: {e}
 
 
 # === 4. Ukentlig oppsummering ===
