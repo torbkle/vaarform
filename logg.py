@@ -4,6 +4,7 @@ import pandas as pd
 import json
 from datetime import datetime, timedelta
 import os
+from db import lagre_treningsøkt
 
 supabase = create_client(st.secrets["SUPABASE_URL"], st.secrets["SUPABASE_KEY"])
 LOGG_FIL = "data/logg.csv"
@@ -96,6 +97,23 @@ def vis_ukesoppsummering():
 
     except Exception as e:
         st.error(f"Feil ved ukesoppsummering: {e}")
+
+# === Tester Garmin mock ===
+def importer_garmin_mock():
+    try:
+        with open("data/garmin_mock.json", "r", encoding="utf-8") as f:
+            økter = json.load(f)
+        for økt in økter:
+            lagre_treningsøkt(
+                bruker="Torbjørn",
+                aktivitet=økt["aktivitet"],
+                varighet=økt["varighet"],
+                distanse=økt["distanse"],
+                kommentar=økt["kommentar"]
+            )
+    except Exception as e:
+        import streamlit as st
+        st.error(f"Feil ved import: {e}")
 
 
 # === 1. Logg treningsøkt manuelt ===
