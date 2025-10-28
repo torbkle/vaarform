@@ -2,6 +2,8 @@ import streamlit as st
 import json
 from datetime import datetime
 from logg import init_logg, skriv_logg, vis_logg
+from settings import init_settings, vis_mål
+
 
 # === Last inn treningsplan ===
 with open("data/treningsplan.json", "r", encoding="utf-8") as f:
@@ -13,6 +15,9 @@ with open("assets/motivasjon.txt", "r", encoding="utf-8") as f:
 
 # === Dagens dato og ukedag ===
 dag = datetime.now().strftime("%A").lower()
+
+init_settings()
+vis_mål()
 
 st.title("🏃‍♀️ VårForm – Treningsapp for to")
 st.subheader(f"Dagens plan ({dag.capitalize()})")
