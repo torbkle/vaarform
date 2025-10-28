@@ -4,18 +4,19 @@ import json
 from datetime import datetime, timedelta
 import os
 
+LOGG_FIL = "data/logg.csv"
+MÅL_FIL = "data/ukemaal.json"
+SETTINGS_FIL = "data/settings.json"
+
+# === Init-funksjoner ===
 def init_logg():
     if not os.path.exists(LOGG_FIL):
         df = pd.DataFrame(columns=["Dato", "Vekt (kg)", "Puls (snitt)", "Distanse (km)", "Kommentar"])
         df.to_csv(LOGG_FIL, index=False)
         print("Opprettet ny logg.csv med kolonner.")
 
-LOGG_FIL = "data/logg.csv"
-MÅL_FIL = "data/ukemaal.json"
-
 def init_settings():
-    filsti = "data/settings.json"
-    if not os.path.exists(filsti):
+    if not os.path.exists(SETTINGS_FIL):
         default_settings = {
             "torbjorn": {
                 "navn": "Torbjørn",
@@ -26,7 +27,7 @@ def init_settings():
                 "mål": "Gå ned 4 kg og øke utholdenhet og styrke 🌟"
             }
         }
-        with open(filsti, "w", encoding="utf-8") as f:
+        with open(SETTINGS_FIL, "w", encoding="utf-8") as f:
             json.dump(default_settings, f, indent=2, ensure_ascii=False)
         print("Opprettet settings.json med standardmål.")
 
@@ -43,18 +44,14 @@ def vurder_intensitet(rad):
     else:
         return "🧘"
 
-
-
 # === 1. Logg treningsøkt manuelt ===
 def skriv_logg():
     st.subheader("📋 Logg treningsøkt manuelt")
-
     dato = st.date_input("Dato for økten", value=datetime.now().date())
     vekt = st.number_input("Vekt (kg)", min_value=40.0, max_value=150.0, step=0.1)
     puls = st.number_input("Gjennomsnittspuls", min_value=60, max_value=200, step=1)
     distanse = st.number_input("Distanse (km)", min_value=0.0, max_value=50.0, step=0.1)
     kommentar = st.text_area("Beskrivelse av økten og hvem som trente")
-
     if st.button("Lagre logg"):
         ny_rad = pd.DataFrame([[dato, vekt, puls, distanse, kommentar]],
                               columns=["Dato", "Vekt (kg)", "Puls (snitt)", "Distanse (km)", "Kommentar"])
@@ -64,7 +61,6 @@ def skriv_logg():
 # === 2. Ukemål og fremdrift ===
 def vis_ukemaal():
     st.subheader("📅 Ukemål og fremdrift")
-
     try:
         with open(MÅL_FIL, "r", encoding="utf-8") as f:
             mål = json.load(f)
@@ -78,10 +74,12 @@ def vis_ukemaal():
             navn = mål[bruker]["navn"]
             øktmål = mål[bruker]["mål_økter"]
             km_mål = mål[bruker]["mål_km"]
-
             person_df = uke_df[uke_df["Kommentar"].str.contains(navn, case=False, na=False)]
             økter = len(person_df)
             km_logget = person_df["Distanse (km)"].sum() if "Distanse (km)" in person_df.columns else 0
+
+            person_df["Intensitet"] = person_df.apply(vurder_intensitet, axis=1)
+            antall_flammende = (person_df["Intensitet"] == "🔥").sum()
 
             st.markdown(f"### {navn}")
             st.progress(min(økter / øktmål, 1.0), text=f"Økter: {økter}/{øktmål}")
@@ -90,40 +88,34 @@ def vis_ukemaal():
             if økter >= øktmål and km_logget >= km_mål:
                 st.success(f"{navn} har nådd ukemålet! Fantastisk innsats! 🎉")
                 st.balloons()
+                if antall_flammende >= 2:
+                    st.info(f"🔥 {antall_flammende} intense økter denne uka – du gir alt!")
 
     except Exception as e:
         st.error(f"Feil ved visning av ukemål: {e}")
 
-# ===Fremgang ===
+# === 3. Fremgang ===
 def vis_fremgang():
     st.subheader("📈 Din fremgang")
-
     try:
         df = pd.read_csv(LOGG_FIL)
         df["Dato"] = pd.to_datetime(df["Dato"])
         df_torbjorn = df[df["Kommentar"].str.contains("Torbjørn", case=False, na=False)]
-
         st.line_chart(df_torbjorn.set_index("Dato")[["Vekt (kg)", "Puls (snitt)", "Distanse (km)"]])
         st.dataframe(df_torbjorn[::-1])
-
     except Exception as e:
         st.warning(f"Feil ved visning av fremgang: {e}")
 
-
-
-# === 3. Parvisning med distanse ===
+# === 4. Parvisning ===
 def vis_parlogg():
     st.subheader("👥 Parvisning – fremgang side om side")
     col1, col2 = st.columns(2)
-
     try:
         df = pd.read_csv(LOGG_FIL)
         df["Dato"] = pd.to_datetime(df["Dato"])
-
         df_torbjorn = df[df["Kommentar"].str.contains("Torbjørn", case=False, na=False)]
         df_ursula = df[df["Kommentar"].str.contains("Ursula", case=False, na=False)]
 
-        # Legg til intensitet og forkort kommentar
         for person_df in [df_torbjorn, df_ursula]:
             person_df["Intensitet"] = person_df.apply(vurder_intensitet, axis=1)
             person_df["Kort kommentar"] = person_df["Kommentar"].apply(
@@ -138,56 +130,17 @@ def vis_parlogg():
                 st.line_chart(person_df.set_index("Dato")[["Vekt (kg)", "Puls (snitt)"]])
                 if "Distanse (km)" in person_df.columns:
                     st.line_chart(person_df.set_index("Dato")[["Distanse (km)"]])
-
                 with st.expander("📋 Se loggdetaljer"):
                     st.dataframe(person_df[visningskolonner][::-1], use_container_width=True)
 
     except Exception as e:
         st.warning(f"Feil ved visning av parlogg: {e}")
 
-
-# === 4. Ukentlig oppsummering ===
-def vis_ukesoppsummering():
-    st.subheader("📊 Ukentlig oppsummering")
-
-    try:
-        df = pd.read_csv(LOGG_FIL)
-        df["Dato"] = pd.to_datetime(df["Dato"]).dt.date
-        start_uke = datetime.now().date() - timedelta(days=datetime.now().weekday())
-        slutt_uke = start_uke + timedelta(days=6)
-        uke_df = df[(df["Dato"] >= start_uke) & (df["Dato"] <= slutt_uke)]
-
-        def oppsummering(navn):
-            person_df = uke_df[uke_df["Kommentar"].str.contains(navn, case=False, na=False)]
-            økter = len(person_df)
-            vekt_diff = round(person_df["Vekt (kg)"].iloc[-1] - person_df["Vekt (kg)"].iloc[0], 1) if økter >= 2 else 0
-            puls_diff = round(person_df["Puls (snitt)"].iloc[-1] - person_df["Puls (snitt)"].iloc[0], 1) if økter >= 2 else 0
-            km_sum = person_df["Distanse (km)"].sum() if "Distanse (km)" in person_df.columns else 0
-
-            st.markdown(f"### {navn}")
-            st.write(f"- Økter logget: **{økter}**")
-            st.write(f"- Vektendring: **{vekt_diff} kg**")
-            st.write(f"- Pulsendring: **{puls_diff} bpm**")
-            st.write(f"- Total distanse: **{km_sum:.1f} km**")
-
-            if økter >= 3:
-                st.success(f"Flott uke, {navn}! Du er på vei 💪")
-            elif økter == 0:
-                st.warning(f"Ingen logg denne uka – kanskje en ny start neste uke, {navn}?")
-
-        oppsummering("Torbjørn")
-        oppsummering("Ursula")
-
-    except Exception as e:
-        st.error(f"Kunne ikke generere ukesoppsummering: {e}")
-
-# === Rediger mål ===
+# === 5. Rediger mål ===
 def rediger_maal():
     st.subheader("🛠️ Rediger treningsmål")
-
-    filsti = "data/settings.json"
     try:
-        with open(filsti, "r", encoding="utf-8") as f:
+        with open(SETTINGS_FIL, "r", encoding="utf-8") as f:
             settings = json.load(f)
 
         for bruker in settings:
@@ -197,10 +150,9 @@ def rediger_maal():
 
             if st.button(f"Lagre nytt mål for {navn}", key=f"lagre_{bruker}"):
                 settings[bruker]["mål"] = nytt_mål
-                with open(filsti, "w", encoding="utf-8") as f:
+                with open(SETTINGS_FIL, "w", encoding="utf-8") as f:
                     json.dump(settings, f, indent=2, ensure_ascii=False)
                 st.success(f"Mål oppdatert for {navn}!")
 
     except Exception as e:
         st.error(f"Kunne ikke laste eller oppdatere settings.json: {e}")
-
