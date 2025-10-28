@@ -1,6 +1,6 @@
 import streamlit as st
 from datetime import datetime
-from logg import init_logg, skriv_logg, vis_parlogg, vis_ukesoppsummering, vis_ukemaal, vis_fremgang, init_settings
+from logg import init_logg, skriv_logg, vis_parlogg, vis_ukesoppsummering, vis_ukemaal, vis_fremgang, init_settings, rediger_mål
 from settings import init_settings, vis_mål
 import json
 
@@ -10,7 +10,7 @@ init_logg()
 
 # === Sidebar med menyvalg ===
 st.sidebar.title("🧭 Navigasjon")
-valg = st.sidebar.radio("Velg visning:", ["Velkommen", "Dagens plan", "Logg", "Fremgang", "Parvisning", "Ukesmål"])
+valg = st.sidebar.radio("Velg visning:", ["Velkommen", "Dagens plan", "Logg", "Fremgang", "Parvisning", "Ukesmål", "Rediger mål"])
 
 # === Vis personlige mål ===
 vis_mål()
@@ -85,3 +85,8 @@ elif valg == "Parvisning":
 # === Ukesmål ===
 elif valg  == "Ukesmål":
     vis_ukemaal()
+
+# === Rediger mål ===
+elif valg == "Rediger mål":
+    rediger_mål()
+
