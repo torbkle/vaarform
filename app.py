@@ -4,6 +4,7 @@ from datetime import datetime
 # === Importer moduler ===
 from meny import vis_meny
 from settings import init_settings, vis_mål
+from garmin import hent_mock_økt
 from config import FARGER, IKONER, APP
 from logg import (
     init_logg,
@@ -46,6 +47,14 @@ if valg == "Velkommen":
 
 elif valg == "Dagens plan":
     vis_dagens_plan()
+    økt = hent_mock_økt("Torbjørn")
+    st.markdown("---")
+    st.subheader("📡 Synkronisert Garmin-økt (mock)")
+    st.write(f"**Aktivitet:** {økt['aktivitet']}")
+    st.write(f"**Distanse:** {økt['distanse_km']} km")
+    st.write(f"**Varighet:** {økt['varighet_min']} min")
+    st.write(f"**Puls:** {økt['gjennomsnittspuls']} bpm")
+    st.write(f"**Kalorier:** {økt['kalorier']} kcal")
 
 elif valg == "Logg":
     skriv_logg()
