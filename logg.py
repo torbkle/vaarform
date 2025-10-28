@@ -29,7 +29,7 @@ def vurder_intensitet(rad):
     else:
         return "🧘"
 
-# === 1. Dagens plan ===
+# === Dagens plan ===
 def vis_dagens_plan():
     st.subheader("📅 Dagens økt")
     bruker = APP["standard_bruker"]
@@ -55,7 +55,7 @@ def vis_dagens_plan():
     if st.button("✅ Fullført"):
         st.success("Økten er registrert. God innsats!")
 
-# === 2. Logg manuelt ===
+# === Logg manuelt ===
 def skriv_logg():
     st.subheader("📋 Logg treningsøkt manuelt")
     dato = st.date_input("Dato", value=datetime.now().date())
@@ -70,7 +70,7 @@ def skriv_logg():
         ny_rad.to_csv(LOGG_FIL, mode='a', header=False, index=False)
         st.success(f"Logg lagret for {dato}!")
 
-# === 3. Treningslogg ===
+# === Treningslogg ===
 def vis_treningslogg():
     response = supabase.table("treningslogg").select("*").order("dato", desc=True).execute()
     data = response.data
@@ -85,7 +85,7 @@ def vis_treningslogg():
     st.subheader("📘 Din treningslogg")
     st.dataframe(df[["dato", "aktivitet", "varighet", "distanse", "kommentar"]])
 
-# === 4. Fremgang ===
+# === Fremgang ===
 def vis_fremgang():
     st.subheader("📈 Din fremgang")
     try:
@@ -97,7 +97,7 @@ def vis_fremgang():
     except Exception as e:
         st.warning(f"Feil ved visning av fremgang: {e}")
 
-# === 5. Ukemål ===
+# === Ukemål ===
 def vis_ukemaal():
     st.subheader("📅 Ukemål og fremdrift")
     try:
@@ -131,7 +131,7 @@ def vis_ukemaal():
     except Exception as e:
         st.error(f"Feil ved visning av ukemål: {e}")
 
-# === 6. Ukentlig oppsummering ===
+# === Ukentlig oppsummering ===
 def vis_ukesoppsummering():
     st.subheader("📊 Ukentlig oppsummering")
     try:
@@ -158,4 +158,7 @@ def vis_ukesoppsummering():
             st.write(f"Pulsendring: **{puls_diff:+} bpm**")
 
             if økter >= 3 and flammer >= 2:
-                st.success("🏆 Ukens innsats:
+                st.success("🏆 Ukens innsats: Sterk og intens!")
+            elif økter >= 3:
+                st.info("💪 God treningsuke – jevn og solid innsats!")
+            elif økter
