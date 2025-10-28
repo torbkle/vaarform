@@ -1,6 +1,6 @@
 import streamlit as st
 from datetime import datetime
-from logg import init_logg, skriv_logg, vis_logg
+from logg import init_logg, skriv_logg, vis_logg, vis_parlogg
 from settings import init_settings, vis_mål
 import json
 
