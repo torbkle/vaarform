@@ -1,6 +1,6 @@
 import streamlit as st
 from datetime import datetime
-from logg import init_logg, skriv_logg, vis_parlogg, vis_ukesoppsummering, vis_ukemaal
+from logg import init_logg, skriv_logg, vis_parlogg, vis_ukesoppsummering, vis_ukemaal, vis_fremgang
 from settings import init_settings, vis_mål
 import json
 
@@ -69,7 +69,7 @@ elif valg == "Logg":
 
 # === Fremgang ===
 elif valg == "Fremgang":
-    vis_parlogg()
+    vis_fremgang()
 
 # === Parvisning ===
 elif valg == "Parvisning":
