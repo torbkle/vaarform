@@ -30,6 +30,20 @@ def init_settings():
             json.dump(default_settings, f, indent=2, ensure_ascii=False)
         print("Opprettet settings.json med standardmål.")
 
+# === Intensitet vurdering ===
+def vurder_intensitet(rad):
+    puls = rad["Puls (snitt)"]
+    km = rad["Distanse (km)"] if "Distanse (km)" in rad else 0
+    if puls > 165 and km > 8:
+        return "🔥"
+    elif puls > 150 or km > 6:
+        return "🏃"
+    elif puls >= 120 or km >= 3:
+        return "🚶"
+    else:
+        return "🧘"
+
+
 
 # === 1. Logg treningsøkt manuelt ===
 def skriv_logg():
@@ -109,16 +123,21 @@ def vis_parlogg():
         df_torbjorn = df[df["Kommentar"].str.contains("Torbjørn", case=False, na=False)]
         df_ursula = df[df["Kommentar"].str.contains("Ursula", case=False, na=False)]
 
+        # Legg til intensitet
+        df_torbjorn["Intensitet"] = df_torbjorn.apply(vurder_intensitet, axis=1)
+        df_ursula["Intensitet"] = df_ursula.apply(vurder_intensitet, axis=1)
+
         for navn, person_df, col in [("Torbjørn", df_torbjorn, col1), ("Ursula", df_ursula, col2)]:
             with col:
                 st.markdown(f"### {navn}")
                 st.line_chart(person_df.set_index("Dato")[["Vekt (kg)", "Puls (snitt)"]])
                 if "Distanse (km)" in person_df.columns:
                     st.line_chart(person_df.set_index("Dato")[["Distanse (km)"]])
-                st.dataframe(person_df[::-1])
+                st.dataframe(person_df[["Dato", "Vekt (kg)", "Puls (snitt)", "Distanse (km)", "Intensitet", "Kommentar"]][::-1])
 
     except Exception as e:
         st.warning(f"Feil ved visning av parlogg: {e}")
+
 
 # === 4. Ukentlig oppsummering ===
 def vis_ukesoppsummering():
