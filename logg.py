@@ -167,3 +167,7 @@ def vis_parlogg():
     st.subheader("👥 Parvisning")
     st.info("Parvisning kommer snart! Her vil du se fremgang for deg og partneren din side ved side.")
 
+def rediger_maal():
+    pass
+def lag_detaljert_plan():
+    pass
