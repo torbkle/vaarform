@@ -182,7 +182,7 @@ def vis_ukesoppsummering():
         st.error(f"Kunne ikke generere ukesoppsummering: {e}")
 
 # === Rediger mål ===
-def rediger_mål():
+def rediger_maal():
     st.subheader("🛠️ Rediger treningsmål")
 
     filsti = "data/settings.json"
