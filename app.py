@@ -19,7 +19,7 @@ vis_mål()
 if valg == "Velkommen":
     st.title("🏃‍♀️ VårForm – Treningsapp for to")
     st.markdown("""
-    Velkommen til VårForm – en personlig treningsapp for deg og din kjæreste.
+    Velkommen til VårForm – en personlig treningsapp for deg og din partner.
     
     Her får dere:
     - Daglige treningsplaner
