@@ -3,7 +3,8 @@ from datetime import datetime
 from logg import init_logg, skriv_logg, vis_parlogg, vis_ukesoppsummering, vis_ukemaal, vis_fremgang, rediger_maal, vis_treningslogg
 from settings import init_settings, vis_mål
 import json
-from logg import importer_garmin_mock
+from logg import importer_garmin_mock, lag_detaljert_plan
+
 
 # === Initier moduler ===
 init_settings()
@@ -108,8 +109,7 @@ elif valg == "Rediger mål":
 
 # === Planlegger ===
 elif valg == "Planlegger":
-    from logg import lag_treningsplan
-    lag_treningsplan()
+    lag_detaljert_plan()
 
 
 
