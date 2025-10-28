@@ -11,15 +11,18 @@ def init_logg():
         df.to_csv(LOGG_FIL, index=False)
 
 def skriv_logg():
-    st.subheader("📋 Logg dagens økt")
+    st.subheader("📋 Logg treningsøkt manuelt")
+
+    dato = st.date_input("Dato for økten", value=datetime.now().date())
     vekt = st.number_input("Vekt (kg)", min_value=40.0, max_value=150.0, step=0.1)
     puls = st.number_input("Gjennomsnittspuls", min_value=60, max_value=200, step=1)
-    kommentar = st.text_input("Kommentar (valgfritt)")
+    kommentar = st.text_area("Beskrivelse av økten og hvem som trente")
+
     if st.button("Lagre logg"):
-        ny_rad = pd.DataFrame([[datetime.now().date(), vekt, puls, kommentar]],
+        ny_rad = pd.DataFrame([[dato, vekt, puls, kommentar]],
                               columns=["Dato", "Vekt (kg)", "Puls (snitt)", "Kommentar"])
         ny_rad.to_csv(LOGG_FIL, mode='a', header=False, index=False)
-        st.success("Logg lagret!")
+        st.success(f"Logg lagret for {dato}!")
 
 def vis_logg():
     st.subheader("📈 Fremgang")
