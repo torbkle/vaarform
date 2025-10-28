@@ -142,6 +142,32 @@ def lag_treningsplan():
             }).execute()
 
         st.success(f"Plan for {len(datoer)} dager lagret!")
+
+
+def lag_detaljert_plan():
+    st.subheader("🗓 Lag detaljert treningsplan")
+
+    bruker = st.text_input("Navn på bruker", value="Torbjørn")
+    antall_dager = st.slider("Antall planlagte dager", 1, 30, 7)
+
+    plan = []
+    for i in range(antall_dager):
+        st.markdown(f"### Dag {i+1}")
+        dato = st.date_input(f"Dato {i+1}", key=f"dato_{i}")
+        aktivitet = st.selectbox(f"Aktivitet {i+1}", ["Løping", "Styrke", "Hvile", "Yoga"], key=f"aktivitet_{i}")
+        beskrivelse = st.text_input(f"Beskrivelse {i+1}", key=f"beskrivelse_{i}")
+        plan.append({"dato": dato, "aktivitet": aktivitet, "beskrivelse": beskrivelse})
+
+    if st.button("📅 Lagre plan"):
+        for økt in plan:
+            supabase.table("treningsplan").insert({
+                "bruker": bruker,
+                "dato": økt["dato"].isoformat(),
+                "aktivitet": økt["aktivitet"],
+                "beskrivelse": økt["beskrivelse"]
+            }).execute()
+        st.success(f"{len(plan)} økter lagret for {bruker}!")
+
         
 # === 1. Logg treningsøkt manuelt ===
 def skriv_logg():
