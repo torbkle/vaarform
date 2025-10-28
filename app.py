@@ -84,4 +84,4 @@ elif valg == "Parvisning":
 
 # === Ukesmål ===
 elif valg  == "Ukesmål":
-vis_ukemaal()
+    vis_ukemaal()
