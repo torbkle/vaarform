@@ -82,10 +82,7 @@ elif valg == "Parvisning":
     if st.button("Heia Torbjørn! 🚀"):
         st.success("Melding sendt: Du bygger deg selv – én økt av gangen!")
 
-# ===db test ===
-if st.sidebar.checkbox("Kjør test_db"):
-    from test_db import test_supabase
-    test_supabase()
+
 
 
 
