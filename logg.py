@@ -1,9 +1,11 @@
 import streamlit as st
+from supabase import create_client
 import pandas as pd
 import json
 from datetime import datetime, timedelta
 import os
 
+supabase = create_client(st.secrets["SUPABASE_URL"], st.secrets["SUPABASE_KEY"])
 LOGG_FIL = "data/logg.csv"
 MÅL_FIL = "data/ukemaal.json"
 SETTINGS_FIL = "data/settings.json"
@@ -208,3 +210,19 @@ def rediger_maal():
 
     except Exception as e:
         st.error(f"Kunne ikke laste eller oppdatere settings.json: {e}")
+
+# === Treningslogg ===
+def vis_treningslogg():
+    response = supabase.table("treningslogg").select("*").order("dato", desc=True).execute()
+    data = response.data
+
+    if not data:
+        st.info("Ingen treningsøkter registrert ennå.")
+        return
+
+    df = pd.DataFrame(data)
+    df["dato"] = pd.to_datetime(df["dato"])
+    df = df.sort_values("dato", ascending=False)
+
+    st.subheader("📘 Din treningslogg")
+    st.dataframe(df[["dato", "aktivitet", "varighet", "distanse", "kommentar"]])
