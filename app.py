@@ -40,7 +40,8 @@ if valg == "Velkommen":
 
 # === Dagens plan ===
 elif valg == "Dagens plan":
-       vis_dagens_plan()
+    vis_dagens_plan()
+      
 
     # Motivasjon
     try:
