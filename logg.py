@@ -26,6 +26,8 @@ def vurder_intensitet(rad):
     else:
         return "🧘"
 
+import os
+
 def vis_dagens_plan():
     st.subheader("📅 Dagens økt")
     bruker = APP["standard_bruker"]
@@ -39,17 +41,26 @@ def vis_dagens_plan():
         return
 
     økt = økter[0]
-    ikon_fil = f"{IKONER['mappe']}{økt['aktivitet'].lower()}.png"
-    try:
+    aktivitet = økt["aktivitet"].lower()
+    ikon_fil = f"{IKONER['mappe']}{aktivitet}.png"
+
+    # 🔒 Sjekk om bildet finnes før visning
+    if os.path.exists(ikon_fil):
         st.image(ikon_fil, width=IKONER["størrelse"])
-    except:
-        st.image(f"{IKONER['mappe']}{IKONER['standard']}", width=IKONER["størrelse"])
+    else:
+        st.warning(f"Ingen ikon funnet for aktiviteten '{aktivitet}'. Viser standard.")
+        fallback = f"{IKONER['mappe']}{IKONER['standard']}"
+        if os.path.exists(fallback):
+            st.image(fallback, width=IKONER["størrelse"])
+        else:
+            st.error("Standardikon mangler også. Sjekk assets/icons/.")
 
     st.markdown(f"**Aktivitet:** {økt['aktivitet']}")
     st.markdown(f"**Økt:** {økt['beskrivelse']}")
 
     if st.button("✅ Fullført"):
         st.success("Økten er registrert. God innsats!")
+
 
 def skriv_logg():
     st.subheader("📋 Logg treningsøkt manuelt")
