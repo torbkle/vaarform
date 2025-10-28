@@ -26,3 +26,26 @@ def vis_logg():
     df = pd.read_csv(LOGG_FIL)
     st.line_chart(df.set_index("Dato")[["Vekt (kg)", "Puls (snitt)"]])
     st.dataframe(df[::-1])  # Vis siste først
+
+def vis_parlogg():
+    st.subheader("👥 Parvisning – fremgang side om side")
+
+    col1, col2 = st.columns(2)
+
+    try:
+        df = pd.read_csv(LOGG_FIL)
+        df_torbjorn = df[df["Kommentar"].str.contains("Torbjørn", case=False, na=False)]
+        df_partner = df[df["Kommentar"].str.contains("Partner", case=False, na=False)]
+
+        with col1:
+            st.markdown("### Torbjørn")
+            st.line_chart(df_torbjorn.set_index("Dato")[["Vekt (kg)", "Puls (snitt)"]])
+            st.dataframe(df_torbjorn[::-1])
+
+        with col2:
+            st.markdown("### Min kjæreste")
+            st.line_chart(df_partner.set_index("Dato")[["Vekt (kg)", "Puls (snitt)"]])
+            st.dataframe(df_partner[::-1])
+
+    except:
+        st.warning("Ingen parlogg funnet – husk å skrive 'Torbjørn' eller 'Partner' i kommentarfeltet.")
