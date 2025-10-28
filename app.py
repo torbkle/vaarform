@@ -74,10 +74,14 @@ elif valg == "Fremgang":
 # === Parvisning ===
 elif valg == "Parvisning":
     vis_parlogg()
-    vis_ukemaal()
+    
     st.markdown("---")
     st.subheader("💌 Send en oppmuntring")
     if st.button("Heia Ursula! 💪"):
         st.success("Melding sendt: Du er rå, Ursula! Fortsett å løpe med hjertet!")
     if st.button("Heia Torbjørn! 🚀"):
         st.success("Melding sendt: Du bygger deg selv – én økt av gangen!")
+
+# === Ukesmål ===
+elif valg  == "Ukesmål":
+vis_ukemaal()
