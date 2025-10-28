@@ -1,0 +1,11 @@
+{
+  "monday": {
+    "trening": "4×4 intervall på mølle. 3 min pause.",
+    "kosthold": "Spis protein etter økten. Unngå sukker før trening."
+  },
+  "tuesday": {
+    "trening": "Kjernestyrke: planke, bird-dog, sideplanke.",
+    "kosthold": "Fokus på grønnsaker og vann. Unngå småspising."
+  }
+  // legg til resten av ukedagene
+}
