@@ -6,7 +6,7 @@ from meny import vis_meny
 from settings import init_settings, vis_mål
 from garmin import hent_mock_økt
 from config import FARGER, IKONER, APP
-from meny import vis_meny, vis_bunnmeny
+from meny import vis_bunnmeny
 from logg import (
     init_logg,
     skriv_logg,
