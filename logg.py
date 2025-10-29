@@ -29,7 +29,12 @@ def vurder_intensitet(rad):
 
 import os
 
+import streamlit as st
+import os
+from datetime import date
+
 def vis_dagens_plan():
+    # 📌 Headerbilde
     st.image("assets/bilde_dagens_plan.png", use_container_width=True)
 
     bruker = APP["standard_bruker"]
@@ -46,6 +51,7 @@ def vis_dagens_plan():
     aktivitet = økt["aktivitet"].lower()
     ikon_fil = f"{IKONER['mappe']}{aktivitet}.png"
 
+    # 🎯 Vis aktivitetsikon
     if os.path.exists(ikon_fil):
         st.image(ikon_fil, width=IKONER["størrelse"])
     else:
@@ -55,16 +61,23 @@ def vis_dagens_plan():
         else:
             st.error("Standardikon mangler også. Sjekk assets/icons/.")
 
+    # 📝 Øktinfo
     st.markdown(f"**Aktivitet:** {økt['aktivitet']}")
     st.markdown(f"**Økt:** {økt['beskrivelse']}")
 
-    # 📸 Klikkbart bilde som knapp
-    col1, col2 = st.columns([1, 5])
-    with col1:
-        if st.button(""):
-            st.success("Økten er registrert. God innsats!")
-        st.image("assets/icons/fullfort.png", width=60)
+    # ✅ Klikkbart bilde som "Fullført"-knapp
+    st.markdown("""
+    <form action="" method="get">
+        <button type="submit" name="fullfort" value="true" style="border: none; background: none; padding: 0;">
+            <img src="assets/icons/fullfort.png" alt="Fullført" style="width: 60px;" />
+        </button>
+    </form>
+    """, unsafe_allow_html=True)
 
+    # 🔄 Sjekk om bildet er klikket
+    query_params = st.experimental_get_query_params()
+    if "fullfort" in query_params:
+        st.success("Økten er registrert. God innsats!")
 def skriv_logg():
     st.subheader("📋 Logg treningsøkt manuelt")
     dato = st.date_input("Dato", value=datetime.now().date())
