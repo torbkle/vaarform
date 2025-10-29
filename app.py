@@ -2,7 +2,6 @@ import streamlit as st
 from datetime import datetime
 
 # === Importer moduler ===
-from meny import vis_meny
 from settings import init_settings, vis_mål
 from garmin import hent_mock_økt
 from config import FARGER, IKONER, APP
