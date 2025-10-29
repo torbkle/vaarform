@@ -5,6 +5,7 @@ from datetime import datetime
 from settings import init_settings, vis_mål
 from garmin import hent_mock_økt
 from config import FARGER, IKONER, APP
+from menydata import MENYVALG
 from logg import (
     init_logg,
     skriv_logg,
@@ -29,18 +30,12 @@ if "sidevalg" not in st.session_state:
 
 # === Toppmeny ===
 st.markdown("## Navigasjon")
-menyvalg_1 = ["Velkommen", "Dagens plan", "Logg", "Fremgang", "Parvisning"]
-menyvalg_2 = ["Ukesmål", "Ukentlig oppsummering", "Rediger mål", "Planlegger"]
+kolonner = st.columns(len(MENYVALG))
 
-col1, col2, col3, col4, col5 = st.columns(5)
-for i, navn in enumerate(menyvalg_1):
-    with [col1, col2, col3, col4, col5][i]:
-        if st.button(navn):
-            st.session_state.sidevalg = navn
-
-col6, col7, col8, col9 = st.columns(4)
-for i, navn in enumerate(menyvalg_2):
-    with [col6, col7, col8, col9][i]:
+for i, meny in enumerate(MENYVALG):
+    navn = meny["navn"]
+    # Du kan bytte til meny["ikon"] eller f"{meny['ikon']} {navn}" senere
+    with kolonner[i]:
         if st.button(navn):
             st.session_state.sidevalg = navn
 
