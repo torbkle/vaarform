@@ -87,3 +87,32 @@ elif valg == "Ukentlig oppsummering":
 if datetime.now().weekday() == 6 and valg != "Ukentlig oppsummering":
     st.markdown("---")
     vis_ukesoppsummering()
+
+
+from meny import vis_meny, vis_bunnmeny
+
+valg = vis_meny()  # Hvis du fortsatt bruker sidebar
+# eller bruk st.session_state.sidevalg direkte
+
+# Vis valgt side
+if valg == "Velkommen":
+    vis_forside()
+elif valg == "Dagens plan":
+    vis_dagens_plan()
+elif valg == "Logg":
+    vis_logg()
+elif valg == "Fremgang":
+    vis_fremgang()
+elif valg == "Parvisning":
+    vis_parvisning()
+elif valg == "Ukesmål":
+    vis_ukemaal()
+elif valg == "Ukentlig oppsummering":
+    vis_oppsummering()
+elif valg == "Rediger mål":
+    vis_rediger_maal()
+elif valg == "Planlegger":
+    vis_planlegger()
+# Vis bunnmeny til slutt
+vis_bunnmeny()
+
