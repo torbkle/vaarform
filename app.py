@@ -34,9 +34,11 @@ kolonner = st.columns(len(MENYVALG))
 
 for i, meny in enumerate(MENYVALG):
     navn = meny["navn"]
+    bilde = meny.get("bilde", None)
+
     with kolonner[i]:
-        if navn == "Velkommen":
-            st.image("assets/icons/home.png", width=50)
+        if bilde and navn == "Velkommen":
+            st.image(bilde, width=50)
             if st.button(" ", key="velkommen_bilde"):
                 st.session_state.sidevalg = navn
         else:
