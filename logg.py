@@ -28,6 +28,7 @@ def vurder_intensitet(rad):
         return "🧘"
 
 
+
 def vis_dagens_plan():
     st.image("assets/bilde_dagens_plan.png", use_container_width=True)
 
@@ -57,13 +58,30 @@ def vis_dagens_plan():
     st.markdown(f"**Aktivitet:** {økt['aktivitet']}")
     st.markdown(f"**Økt:** {økt['beskrivelse']}")
 
-    # ✅ Klikkbart bilde som knapp – bruker columns for layout
-    col1, col2 = st.columns([1, 5])
-    with col1:
-        if st.button(" ", key="fullfort_knapp"):
-            st.success("Økten er registrert. God innsats!")
-    with col2:
-        st.image("assets/icons/fullfort.png", width=60)
+    # ✅ Klikkbart bilde som knapp
+    with st.container():
+        clicked = st.button(
+            label="",
+            key="fullfort_knapp",
+            help="Klikk for å registrere økten",
+        )
+        st.markdown("""
+        <style>
+        button[data-testid="fullfort_knapp"] {
+            background-image: url("assets/icons/fullfort.png");
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            width: 60px;
+            height: 60px;
+            border: none;
+            padding: 0;
+        }
+        </style>
+        """, unsafe_allow_html=True)
+
+    if clicked:
+        st.success("Økten er registrert. God innsats!")
 
 
 def skriv_logg():
