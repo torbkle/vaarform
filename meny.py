@@ -7,8 +7,8 @@ def vis_bunnmeny():
     col1, col2, col3, col4, col5 = st.columns(5)
 
     with col1:
-        # Bruk Markdown for å vise bilde som knappetikett
-        if st.button("![Velkommen](assets/icons/home.png)", key="velkommen_bilde"):
+        st.image("assets/icons/home.png", width=50)
+        if st.button(" ", key="velkommen_knapp", help="Velkommen"):
             st.session_state.sidevalg = "Velkommen"
 
     with col2:
