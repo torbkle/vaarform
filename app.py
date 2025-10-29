@@ -4,8 +4,8 @@ from datetime import datetime
 # === Importer moduler ===
 from settings import init_settings, vis_mål
 from garmin import hent_mock_økt
-from config import FARGER, IKONER, APP
-from meny import vis_bunnmeny  # Ny menyfunksjon med bildeknapp
+from config import FARGER, APP
+from meny import vis_meny  # Ny ikonbasert hamburgermeny
 from logg import (
     init_logg,
     skriv_logg,
@@ -28,8 +28,8 @@ init_logg()
 if "sidevalg" not in st.session_state:
     st.session_state.sidevalg = "Velkommen"
 
-# === Vis meny med bildeknapp for Velkommen ===
-vis_bunnmeny()
+# === Vis ikonbasert meny ===
+vis_meny()
 
 # === Hovedvisning ===
 valg = st.session_state.sidevalg
@@ -40,7 +40,6 @@ st.markdown(
 )
 
 if valg == "Velkommen":
-    st.image("assets/varform.png", use_container_width=True)
     st.markdown("""
     <div style='text-align: center; font-size: 20px; font-family: "Segoe UI", sans-serif; color: #003049;'>
       <strong>Tren sammen. Følg fremgangen. Del seieren.</strong><br>
