@@ -7,8 +7,10 @@ def vis_bunnmeny():
     col1, col2, col3, col4, col5 = st.columns(5)
 
     with col1:
-        if st.button("Velkommen"):
+        st.image("assets/icons/home.png", width=50)
+        if st.button(" ", key="velkommen_bilde"):
             st.session_state.sidevalg = "Velkommen"
+
     with col2:
         if st.button("Dagens plan"):
             st.session_state.sidevalg = "Dagens plan"
