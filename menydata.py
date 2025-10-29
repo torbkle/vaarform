@@ -1,7 +1,5 @@
-# menydata.py
-
 MENYVALG = [
-    {"navn": "Velkommen", "ikon": "🏠"},
+    {"navn": "Velkommen", "ikon": "🏠", "bilde": "assets/icons/home.png"},
     {"navn": "Dagens plan", "ikon": "📅"},
     {"navn": "Logg", "ikon": "📓"},
     {"navn": "Fremgang", "ikon": "📈"},
