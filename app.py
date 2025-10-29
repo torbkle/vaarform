@@ -5,7 +5,7 @@ from datetime import datetime
 from settings import init_settings, vis_mål
 from garmin import hent_mock_økt
 from config import FARGER, APP
-from meny import vis_meny  # Ny ikonbasert hamburgermeny
+from meny import vis_meny  # Kompakt ikonmeny
 from logg import (
     init_logg,
     skriv_logg,
@@ -28,9 +28,6 @@ init_logg()
 if "sidevalg" not in st.session_state:
     st.session_state.sidevalg = "Velkommen"
 
-# === Vis ikonbasert meny ===
-vis_meny()
-
 # === Hovedvisning ===
 valg = st.session_state.sidevalg
 
@@ -40,14 +37,18 @@ st.markdown(
 )
 
 if valg == "Velkommen":
+    st.image("assets/varform.png", use_container_width=True)
     st.markdown("""
-    <div style='text-align: center; font-size: 20px; font-family: "Segoe UI", sans-serif; color: #003049;'>
+    <div style='text-align: center; font-size: 20px; font-family: "Segoe UI", sans-serif; color: #003049; margin-bottom: 1rem;'>
       <strong>Tren sammen. Følg fremgangen. Del seieren.</strong><br>
       VårForm hjelper deg og partneren din å holde motivasjonen oppe – én økt av gangen.
     </div>
     """, unsafe_allow_html=True)
 
+    vis_meny()  # Menyen vises under bildet
+
 elif valg == "Dagens plan":
+    vis_meny()
     vis_dagens_plan()
     økt = hent_mock_økt("Torbjørn")
     st.markdown("---")
@@ -59,11 +60,13 @@ elif valg == "Dagens plan":
     st.write(f"**Kalorier:** {økt['kalorier']} kcal")
 
 elif valg == "Logg":
+    vis_meny()
     skriv_logg()
     st.markdown("---")
     vis_treningslogg()
 
 elif valg == "Fremgang":
+    vis_meny()
     vis_fremgang()
     økt = hent_mock_økt("Torbjørn")
     st.markdown("---")
@@ -72,6 +75,7 @@ elif valg == "Fremgang":
     st.write(f"{emoji} Du har gjennomført en {økt['aktivitet'].lower()} på {økt['distanse_km']} km med {økt['gjennomsnittspuls']} bpm i snittpuls.")
 
 elif valg == "Parvisning" and APP["vis_parvisning"]:
+    vis_meny()
     vis_parlogg()
     st.markdown("---")
     st.subheader("💌 Send en oppmuntring")
@@ -81,15 +85,19 @@ elif valg == "Parvisning" and APP["vis_parvisning"]:
         st.success("Melding sendt: Du bygger deg selv – én økt av gangen!")
 
 elif valg == "Ukesmål":
+    vis_meny()
     vis_ukemaal()
 
 elif valg == "Ukentlig oppsummering":
+    vis_meny()
     vis_ukesoppsummering()
 
 elif valg == "Rediger mål":
+    vis_meny()
     rediger_maal()
 
 elif valg == "Planlegger":
+    vis_meny()
     lag_detaljert_plan()
 
 # === Automatisk ukesoppsummering på søndager ===
