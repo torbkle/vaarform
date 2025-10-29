@@ -6,21 +6,19 @@ def vis_meny():
     <style>
     .ikonmeny {
         display: flex;
-        flex-wrap: wrap;
+        flex-wrap: nowrap;
+        overflow-x: auto;
         justify-content: center;
-        gap: 0.5rem;
-        margin: 0.5rem 0 1rem 0;
-        padding: 0.5rem 0;
+        gap: 0.4rem;
+        padding: 0.4rem 0;
+        margin-bottom: 1rem;
         border-bottom: 1px solid #ddd;
         background-color: #f8f9fa;
-        position: sticky;
-        top: 0;
-        z-index: 999;
     }
     .ikonknapp {
-        font-size: 24px;
-        padding: 0.4rem 0.6rem;
-        border-radius: 8px;
+        font-size: 20px;
+        padding: 0.3rem 0.5rem;
+        border-radius: 6px;
         background-color: #f0f0f0;
         border: 2px solid transparent;
         cursor: pointer;
@@ -32,12 +30,6 @@ def vis_meny():
     .ikonknapp.aktiv {
         border-color: #003049;
         background-color: #dbe9f4;
-    }
-    @media (max-width: 768px) {
-        .ikonmeny {
-            flex-direction: row;
-            overflow-x: auto;
-        }
     }
     </style>
     """, unsafe_allow_html=True)
