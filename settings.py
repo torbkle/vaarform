@@ -38,14 +38,15 @@ def hent_innstillinger():
         return json.load(f)
 
 def vis_mål():
-    """Viser mål i sidepanelet"""
+    """Viser mål i hovedområdet (ikke sidebar)"""
     data = hent_innstillinger()
     brukere = data.get("brukere", {})
     if not brukere:
-        st.sidebar.warning("Ingen mål funnet – sjekk settings.json")
+        st.warning("Ingen mål funnet – sjekk settings.json")
         return
-    st.sidebar.header("🎯 Våre mål")
-    for bruker in brukere:
-        navn = brukere[bruker].get("navn", bruker)
-        mål = brukere[bruker].get("mål", "Ingen mål definert")
-        st.sidebar.markdown(f"**{navn}**: {mål}")
+
+    with st.expander("🎯 Våre mål", expanded=True):
+        for bruker in brukere:
+            navn = brukere[bruker].get("navn", bruker)
+            mål = brukere[bruker].get("mål", "Ingen mål definert")
+            st.markdown(f"**{navn}**: {mål}")
