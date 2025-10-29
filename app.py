@@ -5,7 +5,7 @@ from datetime import datetime
 from settings import init_settings, vis_mål
 from garmin import hent_mock_økt
 from config import FARGER, APP
-from meny import vis_meny  # Venstremeny
+from meny import vis_sidebar_meny  # Bruker Streamlit sidebar
 from logg import (
     init_logg,
     skriv_logg,
@@ -23,7 +23,7 @@ from logg import (
 st.set_page_config(page_title="VårForm", page_icon="🏋️", layout="wide")
 init_settings()
 init_logg()
-vis_meny()
+vis_sidebar_meny()
 
 # === Initier menyvalg hvis det ikke finnes ===
 if "sidevalg" not in st.session_state:
@@ -100,6 +100,3 @@ if datetime.now().weekday() == 6 and valg != "Ukentlig oppsummering":
 st.markdown("---")
 st.markdown("### Våre mål")
 vis_mål()
-
-# === Lukk innholdsområde ===
-st.markdown("</div>", unsafe_allow_html=True)
