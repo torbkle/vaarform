@@ -7,9 +7,18 @@ def vis_bunnmeny():
     col1, col2, col3, col4, col5 = st.columns(5)
 
     with col1:
-        st.image("assets/icons/home.png", width=50)
-        if st.button(" ", key="velkommen_bilde"):
-            st.session_state.sidevalg = "Velkommen"
+        st.markdown(
+            """
+            <div style="text-align:center">
+                <form action="" method="post">
+                    <button type="submit" style="background:none;border:none;padding:0;" name="valg" value="Velkommen">
+                        <img src="assets/icons/home.png" width="50" style="cursor:pointer;">
+                    </button>
+                </form>
+            </div>
+            """,
+            unsafe_allow_html=True
+        )
 
     with col2:
         if st.button("Dagens plan"):
@@ -38,3 +47,8 @@ def vis_bunnmeny():
     with col9:
         if st.button("Planlegger"):
             st.session_state.sidevalg = "Planlegger"
+
+    # Håndter klikk fra HTML-form
+    if "valg" in st.session_state:
+        st.session_state.sidevalg = st.session_state.valg
+        del st.session_state.valg
