@@ -33,6 +33,7 @@ import streamlit as st
 import os
 from datetime import date
 
+
 def vis_dagens_plan():
     # 📌 Headerbilde
     st.image("assets/bilde_dagens_plan.png", use_container_width=True)
@@ -75,9 +76,10 @@ def vis_dagens_plan():
     """, unsafe_allow_html=True)
 
     # 🔄 Sjekk om bildet er klikket
-    query_params = st.experimental_get_query_params()
+    query_params = st.query_params
     if "fullfort" in query_params:
         st.success("Økten er registrert. God innsats!")
+
 def skriv_logg():
     st.subheader("📋 Logg treningsøkt manuelt")
     dato = st.date_input("Dato", value=datetime.now().date())
