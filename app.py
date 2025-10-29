@@ -104,7 +104,7 @@ elif valg == "Logg":
 elif valg == "Fremgang":
     vis_fremgang()
 elif valg == "Parvisning":
-    vis_parvisning()
+    vis_parlogg()
 elif valg == "Ukesmål":
     vis_ukemaal()
 elif valg == "Ukentlig oppsummering":
