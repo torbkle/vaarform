@@ -27,12 +27,6 @@ def vurder_intensitet(rad):
     else:
         return "🧘"
 
-import os
-
-import streamlit as st
-import os
-from datetime import date
-
 
 def vis_dagens_plan():
     # 📌 Headerbilde
@@ -79,6 +73,7 @@ def vis_dagens_plan():
     query_params = st.query_params
     if "fullfort" in query_params:
         st.success("Økten er registrert. God innsats!")
+
 
 def skriv_logg():
     st.subheader("📋 Logg treningsøkt manuelt")
