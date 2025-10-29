@@ -5,7 +5,7 @@ from datetime import datetime
 from settings import init_settings, vis_mål
 from garmin import hent_mock_økt
 from config import FARGER, IKONER, APP
-from menydata import MENYVALG
+from meny import vis_bunnmeny  # Ny menyfunksjon med bildeknapp
 from logg import (
     init_logg,
     skriv_logg,
@@ -28,22 +28,8 @@ init_logg()
 if "sidevalg" not in st.session_state:
     st.session_state.sidevalg = "Velkommen"
 
-# === Toppmeny ===
-st.markdown("## Navigasjon")
-kolonner = st.columns(len(MENYVALG))
-
-for i, meny in enumerate(MENYVALG):
-    navn = meny["navn"]
-    bilde = meny.get("bilde", None)
-
-    with kolonner[i]:
-        if bilde and navn == "Velkommen":
-            st.image(bilde, width=50)
-            if st.button(" ", key="velkommen_bilde"):
-                st.session_state.sidevalg = navn
-        else:
-            if st.button(navn):
-                st.session_state.sidevalg = navn
+# === Vis meny med bildeknapp for Velkommen ===
+vis_bunnmeny()
 
 # === Hovedvisning ===
 valg = st.session_state.sidevalg
