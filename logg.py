@@ -29,7 +29,8 @@ def vurder_intensitet(rad):
 import os
 
 def vis_dagens_plan():
-    st.subheader("📅 Dagens økt")
+    # 📌 Kun ikon som header
+    st.image("assets/icons/dagens_okt.png", width=60)  # Juster filnavn og størrelse etter behov
     bruker = APP["standard_bruker"]
     idag = date.today().isoformat()
 
