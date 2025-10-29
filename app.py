@@ -5,7 +5,6 @@ from datetime import datetime
 from settings import init_settings, vis_mål
 from garmin import hent_mock_økt
 from config import FARGER, IKONER, APP
-from meny import vis_bunnmeny
 from logg import (
     init_logg,
     skriv_logg,
@@ -21,8 +20,6 @@ from logg import (
 
 # === Sett opp appen ===
 st.set_page_config(page_title="VårForm", page_icon="🏋️", layout="centered")
-
-# === Initier app ===
 init_settings()
 init_logg()
 
@@ -30,12 +27,27 @@ init_logg()
 if "sidevalg" not in st.session_state:
     st.session_state.sidevalg = "Velkommen"
 
-valg = st.session_state.sidevalg  # Flyttet opp
+# === Toppmeny ===
+st.markdown("## Navigasjon")
+menyvalg_1 = ["Velkommen", "Dagens plan", "Logg", "Fremgang", "Parvisning"]
+menyvalg_2 = ["Ukesmål", "Ukentlig oppsummering", "Rediger mål", "Planlegger"]
 
-# === Sidebar ===
+col1, col2, col3, col4, col5 = st.columns(5)
+for i, navn in enumerate(menyvalg_1):
+    with [col1, col2, col3, col4, col5][i]:
+        if st.button(navn):
+            st.session_state.sidevalg = navn
+
+col6, col7, col8, col9 = st.columns(4)
+for i, navn in enumerate(menyvalg_2):
+    with [col6, col7, col8, col9][i]:
+        if st.button(navn):
+            st.session_state.sidevalg = navn
+
+# === Vis valgt side ===
+valg = st.session_state.sidevalg
 vis_mål()
 
-# === Hovedvisning ===
 st.markdown(
     f"<style>body {{ background-color: {FARGER['bakgrunn']}; }}</style>",
     unsafe_allow_html=True
@@ -99,6 +111,3 @@ elif valg == "Planlegger":
 if datetime.now().weekday() == 6 and valg != "Ukentlig oppsummering":
     st.markdown("---")
     vis_ukesoppsummering()
-
-# === Bunnmeny ===
-vis_bunnmeny()
