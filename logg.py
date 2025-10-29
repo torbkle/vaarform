@@ -28,10 +28,6 @@ def vurder_intensitet(rad):
         return "🧘"
 
 
-import streamlit as st
-import os
-from datetime import date
-
 def vis_dagens_plan():
     st.image("assets/bilde_dagens_plan.png", use_container_width=True)
 
