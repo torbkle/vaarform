@@ -1,4 +1,5 @@
 import streamlit as st
+from PIL import Image
 import pandas as pd
 import json
 import os
@@ -29,8 +30,8 @@ def vurder_intensitet(rad):
 import os
 
 def vis_dagens_plan():
-    # 📌 Kun ikon som header
     st.image("assets/bilde_dagens_plan.png", use_container_width=True)
+
     bruker = APP["standard_bruker"]
     idag = date.today().isoformat()
 
@@ -45,11 +46,9 @@ def vis_dagens_plan():
     aktivitet = økt["aktivitet"].lower()
     ikon_fil = f"{IKONER['mappe']}{aktivitet}.png"
 
-    # 🔒 Sjekk om bildet finnes før visning
     if os.path.exists(ikon_fil):
         st.image(ikon_fil, width=IKONER["størrelse"])
     else:
-        st.warning(f"Ingen ikon funnet for aktiviteten '{aktivitet}'. Viser standard.")
         fallback = f"{IKONER['mappe']}{IKONER['standard']}"
         if os.path.exists(fallback):
             st.image(fallback, width=IKONER["størrelse"])
@@ -60,18 +59,11 @@ def vis_dagens_plan():
     st.markdown(f"**Økt:** {økt['beskrivelse']}")
 
     # 📸 Klikkbart bilde som knapp
-    clicked = st.markdown("""
-    <a href="?fullfort=true">
-        <img src="assets/icons/fullfort.png" alt="Fullført" style="width:60px;" />
-    </a>
-    """, unsafe_allow_html=True)
-
-    # 🎯 Sjekk om bildet er klikket
-    query_params = st.experimental_get_query_params()
-    if "fullfort" in query_params:
-        st.success("Økten er registrert. God innsats!")
-        # Her kan du også kalle vis_dagens_plan() eller annen logikk
-
+    col1, col2 = st.columns([1, 5])
+    with col1:
+        if st.button(""):
+            st.success("Økten er registrert. God innsats!")
+        st.image("assets/icons/fullfort.png", width=60)
 
 def skriv_logg():
     st.subheader("📋 Logg treningsøkt manuelt")
