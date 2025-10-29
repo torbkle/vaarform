@@ -91,7 +91,7 @@ if datetime.now().weekday() == 6 and valg != "Ukentlig oppsummering":
 
 
 
-valg = vis_meny()  # Hvis du fortsatt bruker sidebar
+#valg = vis_meny()  # Hvis du fortsatt bruker sidebar
 # eller bruk st.session_state.sidevalg direkte
 
 # Vis valgt side
