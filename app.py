@@ -34,7 +34,8 @@ st.markdown(
 )
 
 if valg == "Velkommen":
-    st.image("assets/varform.png", use_column_width=True)
+    st.image("assets/varform.png", use_container_width=True)
+
     st.markdown(f"""
     <div style='color:{FARGER['tekst']}'>
     Velkommen til VårForm – en personlig treningsapp for deg og din partner. Her får dere:
