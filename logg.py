@@ -30,7 +30,7 @@ import os
 
 def vis_dagens_plan():
     # 📌 Kun ikon som header
-    st.image("assets/icons/dagens_okt.png", width=60)  # Juster filnavn og størrelse etter behov
+    st.image("assets/icons/dagens_okt.png", width=90)  # Juster filnavn og størrelse etter behov
     bruker = APP["standard_bruker"]
     idag = date.today().isoformat()
 
