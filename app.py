@@ -6,6 +6,7 @@ from meny import vis_meny
 from settings import init_settings, vis_mål
 from garmin import hent_mock_økt
 from config import FARGER, IKONER, APP
+from meny import vis_meny, vis_bunnmeny
 from logg import (
     init_logg,
     skriv_logg,
@@ -24,7 +25,7 @@ init_settings()
 init_logg()
 
 # === Sidebar ===
-valg = vis_meny()
+#valg = vis_meny()
 vis_mål()
 
 # === Hovedvisning ===
@@ -89,7 +90,7 @@ if datetime.now().weekday() == 6 and valg != "Ukentlig oppsummering":
     vis_ukesoppsummering()
 
 
-from meny import vis_meny, vis_bunnmeny
+
 
 valg = vis_meny()  # Hvis du fortsatt bruker sidebar
 # eller bruk st.session_state.sidevalg direkte
