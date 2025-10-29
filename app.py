@@ -91,10 +91,16 @@ if datetime.now().weekday() == 6 and valg != "Ukentlig oppsummering":
 
 
 
-#valg = vis_meny()  # Hvis du fortsatt bruker sidebar
-# eller bruk st.session_state.sidevalg direkte
+# Sett opp appen
+st.set_page_config(page_title="VårForm", page_icon="🏋️", layout="centered")
+
+# Initier menyvalg hvis det ikke finnes
+if "sidevalg" not in st.session_state:
+    st.session_state.sidevalg = "Velkommen"
 
 # Vis valgt side
+valg = st.session_state.sidevalg
+
 if valg == "Velkommen":
     vis_forside()
 elif valg == "Dagens plan":
@@ -108,11 +114,12 @@ elif valg == "Parvisning":
 elif valg == "Ukesmål":
     vis_ukemaal()
 elif valg == "Ukentlig oppsummering":
-    vis_oppsummering()
+    vis_ukentlig_oppsummering()
 elif valg == "Rediger mål":
     vis_rediger_maal()
 elif valg == "Planlegger":
     vis_planlegger()
+
 # Vis bunnmeny til slutt
 vis_bunnmeny()
 
