@@ -34,14 +34,12 @@ kolonner = st.columns(len(MENYVALG))
 
 for i, meny in enumerate(MENYVALG):
     navn = meny["navn"]
-    # Du kan bytte til meny["ikon"] eller f"{meny['ikon']} {navn}" senere
     with kolonner[i]:
         if st.button(navn):
             st.session_state.sidevalg = navn
 
-# === Vis valgt side ===
+# === Hovedvisning ===
 valg = st.session_state.sidevalg
-vis_mål()
 
 st.markdown(
     f"<style>body {{ background-color: {FARGER['bakgrunn']}; }}</style>",
@@ -106,3 +104,8 @@ elif valg == "Planlegger":
 if datetime.now().weekday() == 6 and valg != "Ukentlig oppsummering":
     st.markdown("---")
     vis_ukesoppsummering()
+
+# === Våre mål i bunnen ===
+st.markdown("---")
+st.markdown("### Våre mål")
+vis_mål()
