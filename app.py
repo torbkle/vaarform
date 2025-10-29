@@ -36,15 +36,13 @@ st.markdown(
 if valg == "Velkommen":
     st.image("assets/varform.png", use_container_width=True)
 
-    st.markdown(f"""
-    <div style='color:{FARGER['tekst']}'>
-    Velkommen til VårForm – en personlig treningsapp for deg og din partner. Her får dere:
-    - Daglige treningsplaner
-    - Kostholdsråd tilpasset øktene
-    - Motivasjon og fremgangslogg
-    - Mulighet for Garmin-integrasjon
+    st.markdown("""
+    <div style='text-align: center; font-size: 20px; font-family: "Segoe UI", sans-serif; color: #003049;'>
+      <strong>Tren sammen. Følg fremgangen. Del seieren.</strong><br>
+      VårForm hjelper deg og partneren din å holde motivasjonen oppe – én økt av gangen.
     </div>
     """, unsafe_allow_html=True)
+
 
 elif valg == "Dagens plan":
     vis_dagens_plan()
