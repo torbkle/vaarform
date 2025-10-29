@@ -1,5 +1,5 @@
 MENYVALG = [
-    {"navn": "Velkommen", "ikon": "🏠", "bilde": "assets/icons/home.png"},
+    {"navn": "Velkommen", "ikon": "🏠"},
     {"navn": "Dagens plan", "ikon": "📅"},
     {"navn": "Logg", "ikon": "📓"},
     {"navn": "Fremgang", "ikon": "📈"},
