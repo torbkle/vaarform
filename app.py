@@ -19,12 +19,20 @@ from logg import (
     lag_detaljert_plan
 )
 
+# === Sett opp appen ===
+st.set_page_config(page_title="VårForm", page_icon="🏋️", layout="centered")
+
 # === Initier app ===
 init_settings()
 init_logg()
 
+# === Initier menyvalg hvis det ikke finnes ===
+if "sidevalg" not in st.session_state:
+    st.session_state.sidevalg = "Velkommen"
+
+valg = st.session_state.sidevalg  # Flyttet opp
+
 # === Sidebar ===
-#valg = vis_meny()
 vis_mål()
 
 # === Hovedvisning ===
@@ -35,14 +43,12 @@ st.markdown(
 
 if valg == "Velkommen":
     st.image("assets/varform.png", use_container_width=True)
-
     st.markdown("""
     <div style='text-align: center; font-size: 20px; font-family: "Segoe UI", sans-serif; color: #003049;'>
       <strong>Tren sammen. Følg fremgangen. Del seieren.</strong><br>
       VårForm hjelper deg og partneren din å holde motivasjonen oppe – én økt av gangen.
     </div>
     """, unsafe_allow_html=True)
-
 
 elif valg == "Dagens plan":
     vis_dagens_plan()
@@ -83,43 +89,16 @@ elif valg == "Ukesmål":
 elif valg == "Ukentlig oppsummering":
     vis_ukesoppsummering()
 
+elif valg == "Rediger mål":
+    rediger_maal()
+
+elif valg == "Planlegger":
+    lag_detaljert_plan()
+
 # === Automatisk ukesoppsummering på søndager ===
 if datetime.now().weekday() == 6 and valg != "Ukentlig oppsummering":
     st.markdown("---")
     vis_ukesoppsummering()
 
-
-
-
-# Sett opp appen
-st.set_page_config(page_title="VårForm", page_icon="🏋️", layout="centered")
-
-# Initier menyvalg hvis det ikke finnes
-if "sidevalg" not in st.session_state:
-    st.session_state.sidevalg = "Velkommen"
-
-# Vis valgt side
-valg = st.session_state.sidevalg
-
-if valg == "Velkommen":
-    vis_forside()
-elif valg == "Dagens plan":
-    vis_dagens_plan()
-elif valg == "Logg":
-    vis_logg()
-elif valg == "Fremgang":
-    vis_fremgang()
-elif valg == "Parvisning":
-    vis_parlogg()
-elif valg == "Ukesmål":
-    vis_ukemaal()
-elif valg == "Ukentlig oppsummering":
-    vis_ukentlig_oppsummering()
-elif valg == "Rediger mål":
-    vis_rediger_maal()
-elif valg == "Planlegger":
-    vis_planlegger()
-
-# Vis bunnmeny til slutt
+# === Bunnmeny ===
 vis_bunnmeny()
-
