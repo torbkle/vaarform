@@ -59,8 +59,18 @@ def vis_dagens_plan():
     st.markdown(f"**Aktivitet:** {økt['aktivitet']}")
     st.markdown(f"**Økt:** {økt['beskrivelse']}")
 
-    if st.button("✅ Fullført"):
+    # 📸 Klikkbart bilde som knapp
+    clicked = st.markdown("""
+    <a href="?fullfort=true">
+        <img src="assets/icons/fullfort.png" alt="Fullført" style="width:60px;" />
+    </a>
+    """, unsafe_allow_html=True)
+
+    # 🎯 Sjekk om bildet er klikket
+    query_params = st.experimental_get_query_params()
+    if "fullfort" in query_params:
         st.success("Økten er registrert. God innsats!")
+        # Her kan du også kalle vis_dagens_plan() eller annen logikk
 
 
 def skriv_logg():
