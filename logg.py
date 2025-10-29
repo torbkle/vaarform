@@ -58,29 +58,8 @@ def vis_dagens_plan():
     st.markdown(f"**Aktivitet:** {økt['aktivitet']}")
     st.markdown(f"**Økt:** {økt['beskrivelse']}")
 
-    # ✅ Klikkbart bilde som knapp
-    with st.container():
-        clicked = st.button(
-            label="",
-            key="fullfort_knapp",
-            help="Klikk for å registrere økten",
-        )
-        st.markdown("""
-        <style>
-        button[data-testid="fullfort_knapp"] {
-            background-image: url("assets/icons/fullfort.png");
-            background-size: contain;
-            background-repeat: no-repeat;
-            background-position: center;
-            width: 60px;
-            height: 60px;
-            border: none;
-            padding: 0;
-        }
-        </style>
-        """, unsafe_allow_html=True)
-
-    if clicked:
+    # ✅ Enkel knapp for å registrere økten
+    if st.button("✅ Fullført"):
         st.success("Økten er registrert. God innsats!")
 
 
